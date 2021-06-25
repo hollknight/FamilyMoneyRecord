@@ -3,6 +3,7 @@ package bill
 import (
 	"FamilyMoneyRecord/database"
 	"FamilyMoneyRecord/database/action/user"
+	"fmt"
 	"testing"
 )
 
@@ -12,8 +13,9 @@ func TestAddBill(t *testing.T) {
 	if err != nil {
 		t.Errorf("获取用户信息失败：%s", err)
 	}
-	err = AddBill(db, u, 20, 0, "吃饭")
+	id, err := AddBill(db, u, 20, 0, "吃饭")
 	if err != nil {
 		t.Errorf("添加账单失败：%s", err)
 	}
+	fmt.Println(id)
 }

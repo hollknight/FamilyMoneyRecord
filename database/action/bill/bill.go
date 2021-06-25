@@ -17,7 +17,7 @@ import (
 //}
 
 // AddBill 添加账单
-func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType string) error {
+func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType string) (uint64, error) {
 	bill := model.Bill{
 		UserID:       user.ID,
 		Receipt:      receipt,
@@ -30,5 +30,35 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType 
 
 	result := db.Create(&bill)
 
-	return result.Error
+	return bill.ID, result.Error
+}
+
+// GetBillsByUserID 获取用户账单列表
+func GetBillsByUserID(db *gorm.DB, userID uint64) ([]model.Bill, error) {
+	var billList []model.Bill
+	res := db.Where("user_id = ?", userID).Find(&billList)
+
+	return billList, res.Error
+}
+
+// DeleteBillByID 根据账单id删除账单记录
+func DeleteBillByID(db *gorm.DB, id uint64) error {
+	bill := new(model.Bill)
+	err := db.Where("id = ?", id).First(bill).Error
+	if err != nil {
+		return err
+	}
+	err = db.Delete(&bill).Error
+	return err
+}
+
+// UpdateBillByID 修改用户收入/支出
+func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int) error {
+	err := db.Model(&model.Bill{}).Where("id = ?", id).Updates(
+		model.Bill{
+			Receipt:      receipt,
+			Disbursement: disbursement,
+		}).Error
+
+	return err
 }

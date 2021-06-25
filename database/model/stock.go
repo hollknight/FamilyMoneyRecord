@@ -1,4 +1,4 @@
-package stock
+package model
 
 // Stock 股票持仓表
 type Stock struct {
