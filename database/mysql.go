@@ -1,24 +1,18 @@
 package database
 
 import (
+	config2 "FamilyMoneyRecord/config"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
 // InitDB 数据库连接
 func InitDB() (*gorm.DB, error) {
-	username := "root"
-	password := "Guit5fx!7kzy9J#"
-	host := "rm-bp117412p222cx22two.mysql.rds.aliyuncs.com"
-	port := "3306"
-	database := "money_record"
-	charset := "utf8"
+	var DB *gorm.DB
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=true",
-		username, password, host, port, database, charset)
+		config2.Username, config2.Password, config2.Host, config2.Port, config2.Database, config2.Charset)
 
 	config := mysql.Config{
 		DSN:                       dsn,
