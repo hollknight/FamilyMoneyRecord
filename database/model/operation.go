@@ -6,7 +6,7 @@ import "time"
 type Operation struct {
 	ID         uint64 `gorm:"primary_key;auto_increment"`
 	AccountID  uint64
-	Code       string    `gorm:"type:varchar(10);unique;not null"`
+	StockID    uint64
 	SharePrice int       `gorm:"type:int"`
 	BuyNum     int       `gorm:"type:int;default:0"`
 	SaleNum    int       `gorm:"type:int;default:0"`

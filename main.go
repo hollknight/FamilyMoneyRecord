@@ -16,7 +16,7 @@ func main() {
 		fmt.Println("初始化数据库失败，请检查原因重新启动程序")
 		return
 	}
-	err = db.AutoMigrate(&model.User{}, &model.Bill{}, &model.Account{}, &model.Operation{}, &model.Stock{})
+	err = db.AutoMigrate(&model.User{}, &model.Bill{}, &model.Account{}, &model.Stock{}, &model.Operation{})
 	if err != nil {
 		fmt.Println("数据库动态迁移失败，请检查原因重新启动程序")
 	}

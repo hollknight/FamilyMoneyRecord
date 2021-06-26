@@ -7,4 +7,5 @@ type Stock struct {
 	Code        string `gorm:"type:varchar(10);unique;not null"`
 	PositionNum int    `gorm:"type:int"`
 	Profit      int    `gorm:"type:int"`
+	Operations  []Operation
 }
