@@ -38,9 +38,9 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType 
 // GetBillsByUserID 获取用户账单列表
 func GetBillsByUserID(db *gorm.DB, userID uint64) ([]model.Bill, error) {
 	var billList []model.Bill
-	res := db.Where("user_id = ?", userID).Find(&billList)
+	result := db.Where("user_id = ?", userID).Find(&billList)
 
-	return billList, res.Error
+	return billList, result.Error
 }
 
 // DeleteBillByID 根据账单id删除账单记录
