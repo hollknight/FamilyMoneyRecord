@@ -18,12 +18,14 @@ import (
 
 // AddBill 添加账单
 func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType string) (uint64, error) {
+	now := time.Now().Add(time.Hour * 8)
+
 	bill := model.Bill{
 		UserID:       user.ID,
 		Receipt:      receipt,
 		Disbursement: disbursement,
 		Type:         moneyType,
-		Time:         time.Now(),
+		Time:         now,
 	}
 
 	user.Bills = append(user.Bills, bill)
@@ -42,23 +44,28 @@ func GetBillsByUserID(db *gorm.DB, userID uint64) ([]model.Bill, error) {
 }
 
 // DeleteBillByID 根据账单id删除账单记录
-func DeleteBillByID(db *gorm.DB, id uint64) error {
+func DeleteBillByID(db *gorm.DB, id uint64) (int, int, error) {
 	bill := new(model.Bill)
 	err := db.Where("id = ?", id).First(bill).Error
 	if err != nil {
-		return err
+		return 0, 0, err
 	}
 	err = db.Delete(&bill).Error
-	return err
+	return bill.Receipt, bill.Disbursement, err
 }
 
 // UpdateBillByID 修改用户收入/支出
-func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int) error {
-	err := db.Model(&model.Bill{}).Where("id = ?", id).Updates(
+func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int) (int, int, error) {
+	bill := new(model.Bill)
+	err := db.Where("id = ?", id).First(bill).Error
+	if err != nil {
+		return 0, 0, err
+	}
+	err = db.Model(&bill).Updates(
 		model.Bill{
 			Receipt:      receipt,
 			Disbursement: disbursement,
 		}).Error
 
-	return err
+	return bill.Receipt, bill.Disbursement, err
 }
