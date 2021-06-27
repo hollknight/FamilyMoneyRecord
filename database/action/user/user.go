@@ -41,6 +41,14 @@ func GetUserByUsername(db *gorm.DB, username string) (model.User, error) {
 	return *user, err
 }
 
+// GetAllUsers 获取所有用户信息
+func GetAllUsers(db *gorm.DB) ([]model.User, error) {
+	var userList []model.User
+	result := db.Find(&userList)
+
+	return userList, result.Error
+}
+
 // UpdateUserName 修改用户姓名
 func UpdateUserName(db *gorm.DB, username, name string) error {
 	err := db.Model(&model.User{}).Where("username = ?", username).Update("name", name).Error

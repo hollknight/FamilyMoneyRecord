@@ -8,7 +8,7 @@ import (
 
 func TestAddUser(t *testing.T) {
 	db, _ := database.InitDB()
-	err := AddUser(db, "1234567890", "12345678901234567890123456789012", "name")
+	err := AddUser(db, "1234567892", "12345678901234567890123456789012", "name")
 	if err != nil {
 		t.Errorf("添加用户失败：%s", err)
 	}
@@ -21,6 +21,15 @@ func TestGetUserByUsername(t *testing.T) {
 		t.Errorf("获取用户信息失败：%s", err)
 	}
 	fmt.Println(user)
+}
+
+func TestGetAllUsers(t *testing.T) {
+	db, _ := database.InitDB()
+	userList, err := GetAllUsers(db)
+	if err != nil {
+		t.Errorf("获取所有用户信息失败：%s", err)
+	}
+	fmt.Println(userList)
 }
 
 func TestUpdateUserName(t *testing.T) {
