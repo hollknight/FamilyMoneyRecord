@@ -30,9 +30,9 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType 
 
 	user.Bills = append(user.Bills, bill)
 
-	result := db.Create(&bill)
+	err := db.Create(&bill).Error
 
-	return bill.ID, result.Error
+	return bill.ID, err
 }
 
 // GetBillsByUserID 获取用户账单列表

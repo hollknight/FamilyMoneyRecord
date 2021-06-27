@@ -21,9 +21,9 @@ func AddAccount(db *gorm.DB, userID uint64) error {
 		Profit: 0,
 	}
 
-	result := db.Create(&account)
+	err := db.Create(&account).Error
 
-	return result.Error
+	return err
 }
 
 // GetAccountsByUserID 获取用户股票账户列表

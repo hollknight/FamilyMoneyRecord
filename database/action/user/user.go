@@ -28,9 +28,9 @@ func AddUser(db *gorm.DB, username, password, name string) error {
 		DisbursementSum: 0,
 	}
 
-	result := db.Create(&user)
+	err := db.Create(&user).Error
 
-	return result.Error
+	return err
 }
 
 // GetUserByUsername 根据用户账号查询用户
