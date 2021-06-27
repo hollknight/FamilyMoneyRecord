@@ -2,6 +2,7 @@ package account
 
 import (
 	"FamilyMoneyRecord/database/model"
+	"errors"
 	"gorm.io/gorm"
 )
 
@@ -35,15 +36,15 @@ func GetAccountsByUserID(db *gorm.DB, userID uint64) ([]model.Account, error) {
 }
 
 // UpdateAccountProfit 更新并获取股票账户盈亏金额
-func UpdateAccountProfit(db *gorm.DB, id uint64, profit int) (model.Account, error) {
+func UpdateAccountProfit(db *gorm.DB, id uint64, profit int) error {
 	account := new(model.Account)
-	err := db.Where("id = ?", id).First(account).Error
-	if err != nil {
-		return *account, err
+	res := db.Model(&account).Where("id = ?", id).Update("profit", profit)
+	if res.RowsAffected == 0 {
+		err := errors.New("该主键下股票账户已被删除")
+		return err
 	}
-	err = db.Model(&account).Where("id = ?", id).Update("profit", profit).Error
 
-	return *account, err
+	return res.Error
 }
 
 // DeleteAccount 删除指定证券账户

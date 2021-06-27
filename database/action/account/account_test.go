@@ -16,11 +16,10 @@ func TestAddAccount(t *testing.T) {
 
 func TestUpdateAccountProfit(t *testing.T) {
 	db, _ := database.InitDB()
-	account, err := UpdateAccountProfit(db, 2, 20)
+	err := UpdateAccountProfit(db, 3, 30)
 	if err != nil {
 		t.Errorf("修改盈利出错：%s", err)
 	}
-	fmt.Println(account)
 }
 
 func TestGetAccountsByUserID(t *testing.T) {
