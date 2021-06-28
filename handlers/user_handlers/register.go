@@ -43,13 +43,13 @@ func Register(db *gorm.DB) func(c *gin.Context) {
 
 		encryptedPassword, err := utils.Encrypt(password)
 		if err != nil {
-			response.setRegisterResponse(-4, "密码不能空，请重新输入")
+			response.setRegisterResponse(-2, "密码不能空，请重新输入")
 			c.JSON(http.StatusOK, response)
 			return
 		}
 		err = user.AddUser(db, username, encryptedPassword, name)
 		if err != nil {
-			response.setRegisterResponse(-5, "注册失败，请重新注册")
+			response.setRegisterResponse(-3, "注册失败，请重新注册")
 			c.JSON(http.StatusOK, response)
 			return
 		}

@@ -53,8 +53,14 @@ func main() {
 		{
 			adminGroup.POST("/single_info", admin_handlers.GetSingleInfo(db))
 			adminGroup.POST("/all_info", admin_handlers.GetAllInfo(db))
+			adminGroup.POST("/add", admin_handlers.AddUser(db))
 			adminGroup.DELETE("/delete", admin_handlers.DeleteUser(db))
 			adminGroup.PUT("/modify_password", admin_handlers.Password(db))
+		}
+		// 用户收支管理路由分组
+		billGroup := apiGroup.Group("/bill")
+		{
+			billGroup.POST("/add")
 		}
 	}
 
