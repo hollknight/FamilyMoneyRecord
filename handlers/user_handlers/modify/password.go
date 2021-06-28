@@ -25,7 +25,7 @@ func (res *PasswordResponse) setPasswordResponse(code int, msg string) {
 	res.Msg = msg
 }
 
-// Password 修改用户姓名接口
+// Password 修改用户密码接口
 func Password(db *gorm.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		request := new(PasswordRequest)

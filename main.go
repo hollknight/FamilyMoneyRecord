@@ -3,6 +3,9 @@ package main
 import (
 	"FamilyMoneyRecord/database"
 	"FamilyMoneyRecord/database/model"
+	"FamilyMoneyRecord/handlers/admin_handlers"
+	"FamilyMoneyRecord/handlers/user_handlers"
+	"FamilyMoneyRecord/handlers/user_handlers/modify"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,6 +30,33 @@ func main() {
 			"msg": "success",
 		})
 	})
+
+	apiGroup := router.Group("/api")
+	{
+		// 用户管理路由分组
+		userGroup := apiGroup.Group("/user")
+		{
+			userGroup.POST("/register", user_handlers.Register(db))
+			userGroup.POST("/login", user_handlers.Login(db))
+			userGroup.POST("/info", user_handlers.GetInfo(db))
+			userGroup.DELETE("/logout", user_handlers.Logout(db))
+			// 修改用户信息相关路由分组
+			modifyGroup := userGroup.Group("/modify")
+			{
+				modifyGroup.PUT("/name", modify.Name(db))
+				modifyGroup.PUT("/password", modify.Password(db))
+				modifyGroup.PUT("/advance_consumption", modify.AdvanceConsumption(db))
+			}
+		}
+		// 管理员用户管理路由分组
+		adminGroup := apiGroup.Group("/admin")
+		{
+			adminGroup.POST("/single_info", admin_handlers.GetSingleInfo(db))
+			adminGroup.POST("/all_info", admin_handlers.GetAllInfo(db))
+			adminGroup.DELETE("/delete", admin_handlers.DeleteUser(db))
+			adminGroup.PUT("/modify_password", admin_handlers.Password(db))
+		}
+	}
 
 	//监听端口默认为8421
 	err = router.Run(":8422")

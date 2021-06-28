@@ -9,7 +9,7 @@ import (
 
 func TestAddBill(t *testing.T) {
 	db, _ := database.InitDB()
-	u, err := user.GetUserByUsername(db, "1234567890")
+	u, err := user.GetUserByUsername(db, "1234567891")
 	if err != nil {
 		t.Errorf("获取用户信息失败：%s", err)
 	}

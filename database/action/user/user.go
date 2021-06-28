@@ -44,9 +44,9 @@ func GetUserByUsername(db *gorm.DB, username string) (model.User, error) {
 // GetAllUsers 获取所有用户信息
 func GetAllUsers(db *gorm.DB) ([]model.User, error) {
 	var userList []model.User
-	result := db.Find(&userList)
+	err := db.Find(&userList).Error
 
-	return userList, result.Error
+	return userList, err
 }
 
 // UpdateUserName 修改用户姓名
@@ -57,8 +57,8 @@ func UpdateUserName(db *gorm.DB, username, name string) error {
 }
 
 // UpdateUserPassword 修改用户密码
-func UpdateUserPassword(db *gorm.DB, username, password string) error {
-	err := db.Model(&model.User{}).Where("username = ?", username).Update("password", password).Error
+func UpdateUserPassword(db *gorm.DB, user model.User, password string) error {
+	err := db.Model(&user).Update("password", password).Error
 
 	return err
 }
@@ -72,7 +72,29 @@ func UpdateAdvanceConsumption(db *gorm.DB, username string, advanceConsumption i
 
 // DeleteUser 注销用户
 func DeleteUser(db *gorm.DB, user model.User) error {
-	err := db.Delete(&user).Error
+	//// 删除所有与用户有关的账单
+	//billList, err := bill.GetBillsByUserID(db, user.ID)
+	//if err != nil {
+	//	return err
+	//}
+	//err = bill.DeleteBills(db, billList)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//// 删除所有与用户有关的证券账户
+	//accountList, err := account.GetAccountsByUserID(db, user.ID)
+	//if err != nil {
+	//	return err
+	//}
+	//err = account.DeleteAccounts(db, accountList)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//// 删除用户
+	//err = db.Delete(&user).Error
+	err := db.Select("Bills", "Accounts").Delete(&user).Error
 
 	return err
 }
