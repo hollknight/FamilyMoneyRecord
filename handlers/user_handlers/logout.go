@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strings"
 )
 
 type LogoutRequest struct {
@@ -37,7 +38,6 @@ func Logout(db *gorm.DB) func(c *gin.Context) {
 
 		token := request.Token
 		password := request.Password
-		encryptedPassword, _ := utils.Encrypt(password)
 		username, err := utils.ParseToken(token)
 		if err != nil {
 			response.setLogoutResponse(-2, "登录已过期，请重新登录")
@@ -51,7 +51,9 @@ func Logout(db *gorm.DB) func(c *gin.Context) {
 			c.JSON(http.StatusOK, response)
 			return
 		}
-		if encryptedPassword != u.Password {
+
+		encryptedPassword, _ := utils.Encrypt(password)
+		if strings.Compare(encryptedPassword, u.Password) != 0 {
 			response.setLogoutResponse(-4, "密码错误，请重新输入")
 			c.JSON(http.StatusOK, response)
 			return

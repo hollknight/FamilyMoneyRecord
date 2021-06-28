@@ -5,13 +5,13 @@ import (
 	"time"
 )
 
-const SecretKey = "+98erw78g4er4gasbag4222sdg" //私钥
+const SecretKey = "+as-0df80asg86das98fg8s9d-0" //私钥
 
 // CreateToken 生成token
-func CreateToken(email string) (string, error) {
+func CreateToken(username string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"Email": email,
-		"exp":   time.Now().Add(time.Minute * 3600 * 2400).Unix(),
+		"username": username,
+		"exp":      time.Now().Add(time.Minute * 3600 * 2400).Unix(),
 	})
 	token, err := at.SignedString([]byte(SecretKey))
 	if err != nil {
@@ -28,5 +28,5 @@ func ParseToken(token string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return claim.Claims.(jwt.MapClaims)["Email"].(string), nil
+	return claim.Claims.(jwt.MapClaims)["username"].(string), nil
 }
