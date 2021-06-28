@@ -16,10 +16,10 @@ func Encrypt(data string) (string, error) {
 
 	// 加yan操作
 	dataBytes := []byte(data)
-	if dataBytes[0] > 3 {
-		dataBytes[0] -= 2
+	if dataBytes[0] > 5 {
+		dataBytes[0] -= 4
 	} else {
-		dataBytes[0]++
+		dataBytes[0] += 3
 	}
 
 	h.Write(dataBytes)
