@@ -54,3 +54,14 @@ func DeleteAccount(db *gorm.DB, id uint64) error {
 
 	return err
 }
+
+// DeleteAccounts 删除列表中所有账单
+func DeleteAccounts(db *gorm.DB, accountList []model.Account) error {
+	for _, account := range accountList {
+		err := db.Delete(&account).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

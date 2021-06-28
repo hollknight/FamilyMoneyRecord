@@ -60,6 +60,8 @@ func GetSingleInfo(db *gorm.DB) func(c *gin.Context) {
 		}
 		if admin != config.AdminUsername {
 			response.setInfoResponse(-3, "", "权限不足", 0, 0, 0)
+			c.JSON(http.StatusOK, response)
+			return
 		}
 
 		username := request.Username

@@ -54,6 +54,17 @@ func DeleteBillByID(db *gorm.DB, id uint64) (int, int, error) {
 	return bill.Receipt, bill.Disbursement, err
 }
 
+// DeleteBills 删除列表中所有账单
+func DeleteBills(db *gorm.DB, billList []model.Bill) error {
+	for _, bill := range billList {
+		err := db.Delete(&bill).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // UpdateBillByID 修改用户收入/支出
 func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int) (int, int, error) {
 	bill := new(model.Bill)
