@@ -17,7 +17,7 @@ import (
 //}
 
 // AddBill 添加账单
-func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType string) (uint64, error) {
+func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType, note string) (uint64, error) {
 	now := time.Now().Add(time.Hour * 8)
 
 	bill := model.Bill{
@@ -25,6 +25,7 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement int, moneyType 
 		Receipt:      receipt,
 		Disbursement: disbursement,
 		Type:         moneyType,
+		Note:         note,
 		Time:         now,
 	}
 
@@ -66,17 +67,21 @@ func DeleteBills(db *gorm.DB, billList []model.Bill) error {
 }
 
 // UpdateBillByID 修改用户收入/支出
-func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int) (int, int, error) {
+func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int, moneyType, note string) (int, int, error) {
 	bill := new(model.Bill)
 	err := db.Where("id = ?", id).First(bill).Error
 	if err != nil {
 		return 0, 0, err
 	}
+	oriReceipt := bill.Receipt
+	oriDisbursement := bill.Disbursement
 	err = db.Model(&bill).Updates(
 		model.Bill{
 			Receipt:      receipt,
 			Disbursement: disbursement,
+			Type:         moneyType,
+			Note:         note,
 		}).Error
 
-	return bill.Receipt, bill.Disbursement, err
+	return oriReceipt, oriDisbursement, err
 }

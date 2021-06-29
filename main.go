@@ -4,6 +4,7 @@ import (
 	"FamilyMoneyRecord/database"
 	"FamilyMoneyRecord/database/model"
 	"FamilyMoneyRecord/handlers/admin_handlers"
+	"FamilyMoneyRecord/handlers/bill_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
 	"fmt"
@@ -60,7 +61,9 @@ func main() {
 		// 用户收支管理路由分组
 		billGroup := apiGroup.Group("/bill")
 		{
-			billGroup.POST("/add")
+			billGroup.POST("/add", bill_handlers.AddBill(db))
+			billGroup.DELETE("/delete", bill_handlers.DeleteBill(db))
+			billGroup.PUT("/update", bill_handlers.UpdateBill(db))
 		}
 	}
 

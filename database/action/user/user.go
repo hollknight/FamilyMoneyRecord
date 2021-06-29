@@ -99,9 +99,13 @@ func DeleteUser(db *gorm.DB, user model.User) error {
 	return err
 }
 
-// PlusUserReceiptSum 增加收入金额
-func PlusUserReceiptSum(db *gorm.DB, user model.User, money int) error {
-	err := db.Model(&user).Update("receipt_sum", user.ReceiptSum+money).Error
+// UpdateUserRSumAndDSum 增加收入金额
+func UpdateUserRSumAndDSum(db *gorm.DB, user model.User, rSum, dSum int) error {
+	err := db.Model(&user).Updates(
+		model.User{
+			ReceiptSum:      rSum,
+			DisbursementSum: dSum,
+		}).Error
 
 	return err
 }

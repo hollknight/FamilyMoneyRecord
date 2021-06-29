@@ -74,7 +74,7 @@ func TestPlusUserReceiptSum(t *testing.T) {
 	if err != nil {
 		t.Errorf("查询用户失败：%s", err)
 	}
-	err = PlusUserReceiptSum(db, user, 5)
+	err = UpdateUserRSumAndDSum(db, user, 5, 5)
 	if err != nil {
 		t.Errorf("用户更新收入失败：%s", err)
 	}
