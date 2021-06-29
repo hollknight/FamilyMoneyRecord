@@ -13,7 +13,7 @@ func TestAddBill(t *testing.T) {
 	if err != nil {
 		t.Errorf("获取用户信息失败：%s", err)
 	}
-	id, err := AddBill(db, u, 0, 100, "吃饭")
+	id, err := AddBill(db, u, 0, 100, "吃饭", "午餐")
 	if err != nil {
 		t.Errorf("添加账单失败：%s", err)
 	}
@@ -22,7 +22,7 @@ func TestAddBill(t *testing.T) {
 
 func TestGetBillsByUserID(t *testing.T) {
 	db, _ := database.InitDB()
-	billList, err := GetBillsByUserID(db, 4)
+	billList, err := GetAllBills(db, 4)
 	if err != nil {
 		t.Errorf("查看账单失败：%s", err)
 	}
@@ -40,7 +40,7 @@ func TestDeleteBillByID(t *testing.T) {
 
 func TestUpdateBillByID(t *testing.T) {
 	db, _ := database.InitDB()
-	receipt, disbursement, err := UpdateBillByID(db, 4, 99, 0)
+	receipt, disbursement, err := UpdateBillByID(db, 4, 99, 0, "衣食住行", "吃饭")
 	if err != nil {
 		t.Errorf("修改账单失败：%s", err)
 	}
