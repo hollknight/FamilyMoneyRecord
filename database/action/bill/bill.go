@@ -29,8 +29,6 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement float64, moneyT
 		Time:         now,
 	}
 
-	user.Bills = append(user.Bills, bill)
-
 	err := db.Create(&bill).Error
 
 	return bill.ID, err

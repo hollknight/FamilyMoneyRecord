@@ -6,6 +6,7 @@ import (
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/account_handlers"
+	"FamilyMoneyRecord/handlers/security_handlers/operation_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/stock_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
@@ -84,6 +85,11 @@ func main() {
 			stockGroup := securityGroup.Group("/stock")
 			{
 				stockGroup.POST("/get", stock_handlers.GetAllStocks(db))
+			}
+			// 股票操作记录路由分组
+			operationGroup := securityGroup.Group("/operation")
+			{
+				operationGroup.POST("/add", operation_handlers.AddOperation(db))
 			}
 		}
 	}
