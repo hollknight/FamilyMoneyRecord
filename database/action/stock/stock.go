@@ -46,10 +46,11 @@ func GetStocksByAccountID(db *gorm.DB, accountID uint64) ([]model.Stock, error) 
 
 // UpdateStock 更新股票股数与盈利金额
 func UpdateStock(db *gorm.DB, stock model.Stock, positionNum, profit int) error {
-	err := db.Model(&stock).Updates(model.Stock{
-		PositionNum: positionNum,
-		Profit:      profit,
-	}).Error
+	err := db.Model(&stock).Updates(
+		map[string]interface{}{
+			"position_sum": positionNum,
+			"profit":       profit,
+		}).Error
 
 	return err
 }

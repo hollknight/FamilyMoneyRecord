@@ -62,9 +62,9 @@ func main() {
 		billGroup := apiGroup.Group("/bill")
 		{
 			billGroup.POST("/add", bill_handlers.AddBill(db))
-			billGroup.POST("get_by_type", bill_handlers.GetBillsByType(db))
-			billGroup.POST("get_by_time", bill_handlers.GetBillsByTime(db))
-			billGroup.POST("get_all", bill_handlers.GetAllBills(db))
+			billGroup.POST("/get_by_type", bill_handlers.GetBillsByType(db))
+			billGroup.POST("/get_by_time", bill_handlers.GetBillsByTime(db))
+			billGroup.POST("/get_all", bill_handlers.GetAllBills(db))
 			billGroup.DELETE("/delete", bill_handlers.DeleteBill(db))
 			billGroup.PUT("/update", bill_handlers.UpdateBill(db))
 		}

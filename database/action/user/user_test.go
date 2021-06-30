@@ -91,3 +91,15 @@ func TestPlusUserDisbursementSum(t *testing.T) {
 		t.Errorf("用户更新支出失败：%s", err)
 	}
 }
+
+func TestUpdateUserRSumAndDSum(t *testing.T) {
+	db, _ := database.InitDB()
+	user, err := GetUserByUsername(db, "ai")
+	if err != nil {
+		t.Errorf("查询用户失败：%s", err)
+	}
+	err = UpdateUserRSumAndDSum(db, user, 0, 0)
+	if err != nil {
+		t.Errorf("用户更新收支信息失败：%s", err)
+	}
+}

@@ -10,11 +10,11 @@ import (
 )
 
 type AddRequest struct {
-	Token        string `json:"token" binding:"required"`
-	Receipt      int    `json:"receipt" binding:"receipt"`
-	Disbursement int    `json:"disbursement" binding:"required"`
-	Type         string `json:"type" binding:"required"`
-	Note         string `json:"note" binding:"required"`
+	Token        string `json:"token"`
+	Receipt      int    `json:"receipt"`
+	Disbursement int    `json:"disbursement"`
+	Type         string `json:"type"`
+	Note         string `json:"note"`
 }
 
 type AddResponse struct {
@@ -27,13 +27,13 @@ type AddData struct {
 	ID uint64 `json:"id"`
 }
 
-func (res AddResponse) setAddResponse(code int, msg string, id uint64) {
+func (res *AddResponse) setAddResponse(code int, msg string, id uint64) {
 	res.Data.ID = id
 	res.Code = code
 	res.Msg = msg
 }
 
-//
+// AddBill 添加账单
 func AddBill(db *gorm.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		request := new(AddRequest)
@@ -66,7 +66,7 @@ func AddBill(db *gorm.DB) func(c *gin.Context) {
 		moneyType := request.Type
 		note := request.Note
 
-		//id, err := bill.AddBill(db, u, receipt, disbursement, moneyType)
+		//id, err := bill.AddBill(db, u, receipt, disbursement, moneyType, note)
 		//if err != nil {
 		//	response.setAddResponse(-4, "添加账单出错，请稍后再试", 0)
 		//	c.JSON(http.StatusOK, response)

@@ -84,11 +84,11 @@ func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement int, moneyType
 	oriReceipt := bill.Receipt
 	oriDisbursement := bill.Disbursement
 	err = db.Model(&bill).Updates(
-		model.Bill{
-			Receipt:      receipt,
-			Disbursement: disbursement,
-			Type:         moneyType,
-			Note:         note,
+		map[string]interface{}{
+			"receipt":      receipt,
+			"disbursement": disbursement,
+			"type":         moneyType,
+			"note":         note,
 		}).Error
 
 	return oriReceipt, oriDisbursement, err
