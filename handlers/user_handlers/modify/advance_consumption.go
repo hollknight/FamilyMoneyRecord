@@ -9,8 +9,8 @@ import (
 )
 
 type AdvRequest struct {
-	Token              string `json:"token" binding:"required"`
-	AdvanceConsumption int    `json:"advanceConsumption" binding:"required"`
+	Token              string  `json:"token" binding:"required"`
+	AdvanceConsumption float64 `json:"advanceConsumption" binding:"required"`
 }
 
 type AdvResponse struct {

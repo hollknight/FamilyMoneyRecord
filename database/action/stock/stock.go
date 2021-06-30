@@ -15,7 +15,7 @@ import (
 //}
 
 // AddStock 添加股票
-func AddStock(db *gorm.DB, accountID uint64, code string, positionNum, profit int) (model.Stock, error) {
+func AddStock(db *gorm.DB, accountID uint64, code string, positionNum int, profit float64) (model.Stock, error) {
 	stock := model.Stock{
 		AccountID:   accountID,
 		Code:        code,
@@ -45,7 +45,7 @@ func GetStocksByAccountID(db *gorm.DB, accountID uint64) ([]model.Stock, error) 
 }
 
 // UpdateStock 更新股票股数与盈利金额
-func UpdateStock(db *gorm.DB, stock model.Stock, positionNum, profit int) error {
+func UpdateStock(db *gorm.DB, stock model.Stock, positionNum int, profit float64) error {
 	err := db.Model(&stock).Updates(
 		map[string]interface{}{
 			"position_sum": positionNum,

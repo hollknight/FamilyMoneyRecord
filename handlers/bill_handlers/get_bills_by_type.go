@@ -26,10 +26,10 @@ type TypeData struct {
 }
 
 type TypeRecord struct {
-	Receipt      int    `json:"receipt"`
-	Disbursement int    `json:"disbursement"`
-	Type         string `json:"type"`
-	Time         string `json:"time"`
+	Receipt      float64 `json:"receipt"`
+	Disbursement float64 `json:"disbursement"`
+	Type         string  `json:"type"`
+	Time         string  `json:"time"`
 }
 
 func (res *TypeResponse) setTypeResponse(code int, msg string, records []TypeRecord) {

@@ -10,11 +10,11 @@ import (
 )
 
 type AddRequest struct {
-	Token        string `json:"token"`
-	Receipt      int    `json:"receipt"`
-	Disbursement int    `json:"disbursement"`
-	Type         string `json:"type"`
-	Note         string `json:"note"`
+	Token        string  `json:"token"`
+	Receipt      float64 `json:"receipt"`
+	Disbursement float64 `json:"disbursement"`
+	Type         string  `json:"type"`
+	Note         string  `json:"note"`
 }
 
 type AddResponse struct {

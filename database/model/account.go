@@ -4,7 +4,7 @@ package model
 type Account struct {
 	ID         uint64 `gorm:"primary_key;auto_increment"`
 	UserID     uint64
-	Profit     int `gorm:"type:int;default:0"`
+	Profit     float64 `gorm:"type:double;default:0"`
 	Operations []Operation
 	Stocks     []Stock
 }

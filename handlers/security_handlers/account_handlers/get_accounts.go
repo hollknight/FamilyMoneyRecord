@@ -24,8 +24,8 @@ type AllData struct {
 }
 
 type AllRecord struct {
-	ID     uint64 `json:"id"`
-	Profit int    `json:"profit"`
+	ID     uint64  `json:"id"`
+	Profit float64 `json:"profit"`
 }
 
 func (res *AllResponse) setAllResponse(code int, msg string, records []AllRecord) {

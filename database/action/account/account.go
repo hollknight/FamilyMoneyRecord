@@ -36,7 +36,7 @@ func GetAccountsByUserID(db *gorm.DB, userID uint64) ([]model.Account, error) {
 }
 
 // UpdateAccountProfit 更新并获取股票账户盈亏金额
-func UpdateAccountProfit(db *gorm.DB, id uint64, profit int) error {
+func UpdateAccountProfit(db *gorm.DB, id uint64, profit float64) error {
 	account := new(model.Account)
 	res := db.Model(&account).Where("id = ?", id).Update("profit", profit)
 	if res.RowsAffected == 0 {

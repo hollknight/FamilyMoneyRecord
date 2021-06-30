@@ -64,7 +64,7 @@ func UpdateUserPassword(db *gorm.DB, user model.User, password string) error {
 }
 
 // UpdateAdvanceConsumption 设置预消费金额
-func UpdateAdvanceConsumption(db *gorm.DB, username string, advanceConsumption int) error {
+func UpdateAdvanceConsumption(db *gorm.DB, username string, advanceConsumption float64) error {
 	err := db.Model(&model.User{}).Where("username = ?", username).Update("advance_consumption", advanceConsumption).Error
 
 	return err
@@ -100,7 +100,7 @@ func DeleteUser(db *gorm.DB, user model.User) error {
 }
 
 // UpdateUserRSumAndDSum 增加收入金额
-func UpdateUserRSumAndDSum(db *gorm.DB, user model.User, rSum, dSum int) error {
+func UpdateUserRSumAndDSum(db *gorm.DB, user model.User, rSum, dSum float64) error {
 	err := db.Model(&user).Updates(
 		map[string]interface{}{
 			"receipt_sum":      rSum,
@@ -111,7 +111,7 @@ func UpdateUserRSumAndDSum(db *gorm.DB, user model.User, rSum, dSum int) error {
 }
 
 // PlusUserDisbursementSum 增加支出金额
-func PlusUserDisbursementSum(db *gorm.DB, user model.User, money int) error {
+func PlusUserDisbursementSum(db *gorm.DB, user model.User, money float64) error {
 	err := db.Model(&user).Update("disbursement_sum", user.DisbursementSum+money).Error
 
 	return err

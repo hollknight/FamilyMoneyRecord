@@ -24,11 +24,11 @@ type AllInfoData struct {
 }
 
 type UserInfo struct {
-	Username           string `json:"username"`
-	Name               string `json:"name"`
-	ReceiptSum         int    `json:"receiptSum"`
-	DisbursementSum    int    `json:"disbursementSum"`
-	AdvanceConsumption int    `json:"AdvanceConsumption"`
+	Username           string  `json:"username"`
+	Name               string  `json:"name"`
+	ReceiptSum         float64 `json:"receiptSum"`
+	DisbursementSum    float64 `json:"disbursementSum"`
+	AdvanceConsumption float64 `json:"AdvanceConsumption"`
 }
 
 func (res *AllInfoResponse) setAllInfoResponse(code int, msg string, users []UserInfo) {

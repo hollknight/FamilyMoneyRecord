@@ -25,10 +25,10 @@ type AllData struct {
 }
 
 type AllRecord struct {
-	Receipt      int    `json:"receipt"`
-	Disbursement int    `json:"disbursement"`
-	Type         string `json:"type"`
-	Time         string `json:"time"`
+	Receipt      float64 `json:"receipt"`
+	Disbursement float64 `json:"disbursement"`
+	Type         string  `json:"type"`
+	Time         string  `json:"time"`
 }
 
 func (res *AllResponse) setAllResponse(code int, msg string, records []AllRecord) {

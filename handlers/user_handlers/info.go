@@ -19,14 +19,14 @@ type InfoResponse struct {
 }
 
 type InfoData struct {
-	Name               string `json:"name"`
-	Username           string `json:"username"`
-	ReceiptSum         int    `json:"receiptSum"`
-	DisbursementSum    int    `json:"disbursementSum"`
-	AdvanceConsumption int    `json:"AdvanceConsumption"`
+	Name               string  `json:"name"`
+	Username           string  `json:"username"`
+	ReceiptSum         float64 `json:"receiptSum"`
+	DisbursementSum    float64 `json:"disbursementSum"`
+	AdvanceConsumption float64 `json:"AdvanceConsumption"`
 }
 
-func (res *InfoResponse) setInfoResponse(code int, name, username, msg string, receiptSum, disbursementSum, AdvanceConsumption int) {
+func (res *InfoResponse) setInfoResponse(code int, name, username, msg string, receiptSum, disbursementSum, AdvanceConsumption float64) {
 	res.Data = InfoData{
 		Name:               name,
 		Username:           username,
