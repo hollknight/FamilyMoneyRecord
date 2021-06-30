@@ -6,6 +6,7 @@ import (
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/account_handlers"
+	"FamilyMoneyRecord/handlers/security_handlers/stock_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
 	"fmt"
@@ -78,6 +79,11 @@ func main() {
 				accountGroup.POST("/add", account_handlers.AddAccount(db))
 				accountGroup.POST("/get", account_handlers.GetAllAccounts(db))
 				accountGroup.DELETE("/delete", account_handlers.DeleteAccount(db))
+			}
+			// 股票路由分组
+			stockGroup := securityGroup.Group("/stock")
+			{
+				stockGroup.POST("/get", stock_handlers.GetAllStocks(db))
 			}
 		}
 	}

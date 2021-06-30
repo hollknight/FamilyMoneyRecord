@@ -66,6 +66,7 @@ func GetAllAccounts(db *gorm.DB) func(c *gin.Context) {
 		if err != nil {
 			response.setAllResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
+			return
 		}
 		var records []AllRecord
 		for _, accountRecord := range AccountList {
