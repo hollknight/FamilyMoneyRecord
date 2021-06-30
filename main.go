@@ -5,6 +5,7 @@ import (
 	"FamilyMoneyRecord/database/model"
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
+	"FamilyMoneyRecord/handlers/security_handlers/account_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
 	"fmt"
@@ -67,6 +68,17 @@ func main() {
 			billGroup.POST("/get_all", bill_handlers.GetAllBills(db))
 			billGroup.DELETE("/delete", bill_handlers.DeleteBill(db))
 			billGroup.PUT("/update", bill_handlers.UpdateBill(db))
+		}
+		// 财务管理路由分组
+		securityGroup := apiGroup.Group("/security")
+		{
+			// 证券账户路由管理分组
+			accountGroup := securityGroup.Group("/account")
+			{
+				accountGroup.POST("/add", account_handlers.AddAccount(db))
+				accountGroup.POST("/get", account_handlers.GetAllAccounts(db))
+				accountGroup.DELETE("/delete", account_handlers.DeleteAccount(db))
+			}
 		}
 	}
 

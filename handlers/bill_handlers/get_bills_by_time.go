@@ -80,13 +80,13 @@ func GetBillsByTime(db *gorm.DB) func(c *gin.Context) {
 		for _, billRecord := range billList {
 			if beginTime.Before(billRecord.Time) && endTime.After(billRecord.Time) {
 				timeRecord := time.Unix(billRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
-				billList := TypeRecord{
+				record := TypeRecord{
 					Receipt:      billRecord.Receipt,
 					Disbursement: billRecord.Disbursement,
 					Type:         billRecord.Type,
 					Time:         timeRecord,
 				}
-				records = append(records, billList)
+				records = append(records, record)
 			}
 		}
 

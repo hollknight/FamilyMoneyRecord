@@ -16,7 +16,7 @@ import (
 //}
 
 // AddAccount 添加证券账户
-func AddAccount(db *gorm.DB, userID uint64) error {
+func AddAccount(db *gorm.DB, userID uint64) (uint64, error) {
 	account := model.Account{
 		UserID: userID,
 		Profit: 0,
@@ -24,7 +24,7 @@ func AddAccount(db *gorm.DB, userID uint64) error {
 
 	err := db.Create(&account).Error
 
-	return err
+	return account.ID, err
 }
 
 // GetAccountsByUserID 获取用户股票账户列表
@@ -50,7 +50,7 @@ func UpdateAccountProfit(db *gorm.DB, id uint64, profit int) error {
 // DeleteAccount 删除指定证券账户
 func DeleteAccount(db *gorm.DB, id uint64) error {
 	account := new(model.Account)
-	err := db.Where("id = ?", id).First(account).Error
+	err := db.Where("id = ?", id).Delete(&account).Error
 
 	return err
 }

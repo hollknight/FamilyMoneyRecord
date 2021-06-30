@@ -1,13 +1,12 @@
-package bill_handlers
+package account_handlers
 
 import (
-	"FamilyMoneyRecord/database/action/bill"
+	"FamilyMoneyRecord/database/action/account"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
-	"time"
 )
 
 type AllRequest struct {
@@ -25,10 +24,8 @@ type AllData struct {
 }
 
 type AllRecord struct {
-	Receipt      int    `json:"receipt"`
-	Disbursement int    `json:"disbursement"`
-	Type         string `json:"type"`
-	Time         string `json:"time"`
+	ID     uint64 `json:"id"`
+	Profit int    `json:"profit"`
 }
 
 func (res *AllResponse) setAllResponse(code int, msg string, records []AllRecord) {
@@ -37,8 +34,8 @@ func (res *AllResponse) setAllResponse(code int, msg string, records []AllRecord
 	res.Msg = msg
 }
 
-// GetAllBills 获取所有账单
-func GetAllBills(db *gorm.DB) func(c *gin.Context) {
+// GetAllAccounts 获取所有证券账户
+func GetAllAccounts(db *gorm.DB) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		request := new(AllRequest)
 		response := new(AllResponse)
@@ -65,19 +62,16 @@ func GetAllBills(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
-		billList, err := bill.GetAllBills(db, u.ID)
+		AccountList, err := account.GetAccountsByUserID(db, u.ID)
 		if err != nil {
 			response.setAllResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
 		}
 		var records []AllRecord
-		for _, billRecord := range billList {
-			timeRecord := time.Unix(billRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
+		for _, accountRecord := range AccountList {
 			record := AllRecord{
-				Receipt:      billRecord.Receipt,
-				Disbursement: billRecord.Disbursement,
-				Type:         billRecord.Type,
-				Time:         timeRecord,
+				ID:     accountRecord.ID,
+				Profit: accountRecord.Profit,
 			}
 			records = append(records, record)
 		}
