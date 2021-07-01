@@ -90,6 +90,8 @@ func main() {
 			operationGroup := securityGroup.Group("/operation")
 			{
 				operationGroup.POST("/add", operation_handlers.AddOperation(db))
+				operationGroup.DELETE("/delete", operation_handlers.DeleteOperation(db))
+				operationGroup.PUT("/update")
 			}
 		}
 	}
