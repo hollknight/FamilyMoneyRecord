@@ -43,6 +43,14 @@ func GetAllOperations(db *gorm.DB, accountID uint64) ([]model.Operation, error) 
 	return operationList, result.Error
 }
 
+// GetOperationByID 根据主键获取股票交易记录
+func GetOperationByID(db *gorm.DB, id uint64) (model.Operation, error) {
+	operation := new(model.Operation)
+	err := db.Where("id = ?", id).First(operation).Error
+
+	return *operation, err
+}
+
 // DeleteOperationByID 删除交易记录
 func DeleteOperationByID(db *gorm.DB, id uint64) (int, int, float64, error) {
 	operation := new(model.Operation)
@@ -52,4 +60,22 @@ func DeleteOperationByID(db *gorm.DB, id uint64) (int, int, float64, error) {
 	}
 	err = db.Delete(&operation).Error
 	return operation.BuyNum, operation.SaleNum, operation.SharePrice, err
+}
+
+// UpdateOperationByID 修改交易记录
+func UpdateOperationByID(db *gorm.DB, id uint64, buyNum, saleNum int, sharePrice float64) error {
+	operation := new(model.Operation)
+	_, err := GetOperationByID(db, id)
+	if err != nil {
+		return err
+	}
+
+	err = db.Model(&operation).Updates(
+		map[string]interface{}{
+			"buy_num":     buyNum,
+			"sale_num":    saleNum,
+			"share_price": sharePrice,
+		}).Error
+
+	return err
 }

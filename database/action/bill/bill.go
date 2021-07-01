@@ -79,6 +79,7 @@ func UpdateBillByID(db *gorm.DB, id uint64, receipt, disbursement float64, money
 	if err != nil {
 		return 0, 0, err
 	}
+
 	oriReceipt := bill.Receipt
 	oriDisbursement := bill.Disbursement
 	err = db.Model(&bill).Updates(

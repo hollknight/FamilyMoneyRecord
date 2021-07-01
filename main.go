@@ -91,7 +91,7 @@ func main() {
 			{
 				operationGroup.POST("/add", operation_handlers.AddOperation(db))
 				operationGroup.DELETE("/delete", operation_handlers.DeleteOperation(db))
-				operationGroup.PUT("/update")
+				operationGroup.PUT("/update", operation_handlers.UpdateOperation(db))
 			}
 		}
 	}
