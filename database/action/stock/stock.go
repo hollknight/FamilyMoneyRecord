@@ -27,6 +27,14 @@ func GetStock(db *gorm.DB, accountID uint64, code string) (model.Stock, error) {
 	return *stock, err
 }
 
+// GetStockByID 根据主键获取股票信息
+func GetStockByID(db *gorm.DB, id uint64) (model.Stock, error) {
+	stock := new(model.Stock)
+	err := db.Where("id = ?", id).First(stock).Error
+
+	return *stock, err
+}
+
 // GetStocksByAccountID 根据股票账户id获取所有股票
 func GetStocksByAccountID(db *gorm.DB, accountID uint64) ([]model.Stock, error) {
 	var stockList []model.Stock

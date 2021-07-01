@@ -26,6 +26,7 @@ type StockData struct {
 
 type StockRecord struct {
 	ID          uint64  `json:"id"`
+	Name        string  `json:"name"`
 	Code        string  `json:"code"`
 	PositionNum int     `json:"positionNum"`
 	Price       float64 `json:"price"`
@@ -75,7 +76,7 @@ func GetAllStocks(db *gorm.DB) func(c *gin.Context) {
 		}
 		var records []StockRecord
 		for _, stockRecord := range stockList {
-			price, err := utils.GetStockPrice(stockRecord.Code)
+			name, price, err := utils.GetStockInfo(stockRecord.Code)
 			if err != nil {
 				response.setAllResponse(-5, "获取价格时发生错误，请稍后再试", nil)
 				c.JSON(http.StatusOK, response)
@@ -84,6 +85,7 @@ func GetAllStocks(db *gorm.DB) func(c *gin.Context) {
 			profit := stockRecord.Profit + float64(stockRecord.PositionNum)*price
 			record := StockRecord{
 				ID:          stockRecord.ID,
+				Name:        name,
 				Code:        stockRecord.Code,
 				PositionNum: stockRecord.PositionNum,
 				Price:       price,
