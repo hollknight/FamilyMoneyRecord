@@ -19,6 +19,14 @@ func AddStock(db *gorm.DB, accountID uint64, code string, positionNum int, profi
 	return stock, err
 }
 
+// GetAllStocks 获取股票信息
+func GetAllStocks(db *gorm.DB) ([]model.Stock, error) {
+	var stockList []model.Stock
+	result := db.Find(&stockList)
+
+	return stockList, result.Error
+}
+
 // GetStock 获取股票信息
 func GetStock(db *gorm.DB, accountID uint64, code string) (model.Stock, error) {
 	stock := new(model.Stock)

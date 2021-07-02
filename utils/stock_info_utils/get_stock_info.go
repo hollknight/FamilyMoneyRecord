@@ -1,4 +1,4 @@
-package utils
+package stock_info_utils
 
 import (
 	"golang.org/x/text/encoding/simplifiedchinese"

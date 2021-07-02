@@ -27,6 +27,14 @@ func AddAccount(db *gorm.DB, userID uint64) (uint64, error) {
 	return account.ID, err
 }
 
+// GetAllAccounts 获取股票账户列表
+func GetAllAccounts(db *gorm.DB) ([]model.Account, error) {
+	var accountsList []model.Account
+	result := db.Find(&accountsList)
+
+	return accountsList, result.Error
+}
+
 // GetAccountsByUserID 获取用户股票账户列表
 func GetAccountsByUserID(db *gorm.DB, userID uint64) ([]model.Account, error) {
 	var accountsList []model.Account

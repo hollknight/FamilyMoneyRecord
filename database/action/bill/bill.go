@@ -34,8 +34,16 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement float64, moneyT
 	return bill.ID, err
 }
 
-// GetAllBills 获取用户账单列表
-func GetAllBills(db *gorm.DB, userID uint64) ([]model.Bill, error) {
+// GetAllBills 获取所有账单
+func GetAllBills(db *gorm.DB) ([]model.Bill, error) {
+	var billList []model.Bill
+	result := db.Find(&billList)
+
+	return billList, result.Error
+}
+
+// GetAllBillsByUserID 获取用户账单列表
+func GetAllBillsByUserID(db *gorm.DB, userID uint64) ([]model.Bill, error) {
 	var billList []model.Bill
 	result := db.Where("user_id = ?", userID).Find(&billList)
 

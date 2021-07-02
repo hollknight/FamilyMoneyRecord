@@ -22,7 +22,7 @@ func TestAddBill(t *testing.T) {
 
 func TestGetBillsByUserID(t *testing.T) {
 	db, _ := database.InitDB()
-	billList, err := GetAllBills(db, 4)
+	billList, err := GetAllBillsByUserID(db, 4)
 	if err != nil {
 		t.Errorf("查看账单失败：%s", err)
 	}

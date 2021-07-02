@@ -71,7 +71,7 @@ func GetBillsByTime(db *gorm.DB) func(c *gin.Context) {
 		beginTime, _ := time.Parse("2006-01-02 15:04:05", beginTimeStr)
 		endTimeStr := request.EndTime
 		endTime, _ := time.Parse("2006-01-02 15:04:05", endTimeStr)
-		billList, err := bill.GetAllBills(db, u.ID)
+		billList, err := bill.GetAllBillsByUserID(db, u.ID)
 		if err != nil {
 			response.setTimeResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)

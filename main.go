@@ -2,7 +2,6 @@ package main
 
 import (
 	"FamilyMoneyRecord/database"
-	"FamilyMoneyRecord/database/model"
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/account_handlers"
@@ -10,6 +9,7 @@ import (
 	"FamilyMoneyRecord/handlers/security_handlers/stock_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
+	"FamilyMoneyRecord/utils/database_utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -23,7 +23,7 @@ func main() {
 		fmt.Println("初始化数据库失败，请检查原因重新启动程序")
 		return
 	}
-	err = db.AutoMigrate(&model.User{}, &model.Bill{}, &model.Account{}, &model.Stock{}, &model.Operation{})
+	err = database_utils.CreateTables(db)
 	if err != nil {
 		fmt.Println("数据库动态迁移失败，请检查原因重新启动程序")
 	}

@@ -65,7 +65,7 @@ func GetAllBills(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
-		billList, err := bill.GetAllBills(db, u.ID)
+		billList, err := bill.GetAllBillsByUserID(db, u.ID)
 		if err != nil {
 			response.setAllResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
