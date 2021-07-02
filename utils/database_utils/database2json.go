@@ -8,7 +8,9 @@ import (
 	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/database/model"
+	"FamilyMoneyRecord/utils/resource_utils"
 	"encoding/json"
+	"errors"
 	"gorm.io/gorm"
 	"os"
 )
@@ -42,8 +44,16 @@ func SaveDatabase(db *gorm.DB) (Database, error) {
 
 // Struct2json 将结构体储存为json文件
 func Struct2json(dataStruct Database, saveName string) error {
-	name := config.FolderBathURL + saveName + ".json"
-	filePtr, err := os.Create(name)
+	path := config.FolderBathURL + saveName + ".json"
+	isExist, err := resource_utils.IsExist(path)
+	if err != nil {
+		return err
+	}
+	if isExist {
+		return errors.New("该名称备份已存在")
+	}
+
+	filePtr, err := os.Create(path)
 	if err != nil {
 		return err
 	}
