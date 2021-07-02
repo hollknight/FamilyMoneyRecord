@@ -65,6 +65,7 @@ func main() {
 		// 数据库管理路由分组
 		databaseGroup := apiGroup.Group("/database")
 		{
+			databaseGroup.POST("/save", database_handlers.SaveDatabase(db))
 			databaseGroup.DELETE("/empty", database_handlers.EmptyDatabase(db))
 		}
 		// 用户收支管理路由分组

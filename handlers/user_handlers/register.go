@@ -1,6 +1,7 @@
 package user_handlers
 
 import (
+	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
 	"github.com/gin-gonic/gin"
@@ -42,31 +43,33 @@ func Register(db *gorm.DB) func(c *gin.Context) {
 
 		inviteUsername := request.InviteUsername
 		invitePassword := request.Password
-		u, err := user.GetUserByUsername(db, inviteUsername)
-		if err != nil {
-			response.setRegisterResponse(-2, "未查询到该账号")
-			c.JSON(http.StatusOK, response)
-			return
-		}
+		if !(inviteUsername == config.AdminUsername && invitePassword == config.AdminPassword) {
+			u, err := user.GetUserByUsername(db, inviteUsername)
+			if err != nil {
+				response.setRegisterResponse(-2, "未查询到该账号")
+				c.JSON(http.StatusOK, response)
+				return
+			}
 
-		// 密码验证
-		encryptedPassword, err := utils.Encrypt(invitePassword)
-		if err != nil {
-			response.setRegisterResponse(-3, "密码为空，请重新输入")
-			c.JSON(http.StatusOK, response)
-			return
-		}
-		if strings.Compare(encryptedPassword, u.Password) != 0 {
-			response.setRegisterResponse(-4, "密码错误，请重新输入")
-			c.JSON(http.StatusOK, response)
-			return
+			// 密码验证
+			encryptedPassword, err := utils.Encrypt(invitePassword)
+			if err != nil {
+				response.setRegisterResponse(-3, "密码为空，请重新输入")
+				c.JSON(http.StatusOK, response)
+				return
+			}
+			if strings.Compare(encryptedPassword, u.Password) != 0 {
+				response.setRegisterResponse(-4, "密码错误，请重新输入")
+				c.JSON(http.StatusOK, response)
+				return
+			}
 		}
 
 		username := request.Username
 		password := request.Password
 		name := request.Name
 
-		encryptedPassword, err = utils.Encrypt(password)
+		encryptedPassword, err := utils.Encrypt(password)
 		if err != nil {
 			response.setRegisterResponse(-5, "密码不能空，请重新输入")
 			c.JSON(http.StatusOK, response)

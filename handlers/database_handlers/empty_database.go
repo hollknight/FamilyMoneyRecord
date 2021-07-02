@@ -10,8 +10,8 @@ import (
 )
 
 type EmptyRequest struct {
-	Token    string `json:"token"`
-	Password string `json:"password"`
+	Token    string `json:"token" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type EmptyResponse struct {
