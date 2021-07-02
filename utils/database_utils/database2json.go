@@ -1,6 +1,7 @@
 package database_utils
 
 import (
+	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/database/action/account"
 	"FamilyMoneyRecord/database/action/bill"
 	"FamilyMoneyRecord/database/action/operation"
@@ -20,7 +21,7 @@ type Database struct {
 	Operations []model.Operation `json:"operations"`
 }
 
-//
+// SaveDatabase 读取数据库中所有数据并存储
 func SaveDatabase(db *gorm.DB) (Database, error) {
 	users, err := user.GetAllUsers(db)
 	bills, err := bill.GetAllBills(db)
@@ -39,9 +40,9 @@ func SaveDatabase(db *gorm.DB) (Database, error) {
 	return database, err
 }
 
-//
+// Struct2json 将结构体储存为json文件
 func Struct2json(dataStruct Database, saveName string) error {
-	name := saveName + ".json"
+	name := config.FolderBathURL + saveName + ".json"
 	filePtr, err := os.Create(name)
 	if err != nil {
 		return err
@@ -50,7 +51,6 @@ func Struct2json(dataStruct Database, saveName string) error {
 	defer filePtr.Close()
 
 	encoder := json.NewEncoder(filePtr)
-
 	err = encoder.Encode(dataStruct)
 	if err != nil {
 		return err
