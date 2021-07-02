@@ -4,6 +4,7 @@ import (
 	"FamilyMoneyRecord/database"
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
+	"FamilyMoneyRecord/handlers/database_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/account_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/operation_handlers"
 	"FamilyMoneyRecord/handlers/security_handlers/stock_handlers"
@@ -60,6 +61,11 @@ func main() {
 			adminGroup.POST("/add", admin_handlers.AddUser(db))
 			adminGroup.DELETE("/delete", admin_handlers.DeleteUser(db))
 			adminGroup.PUT("/modify_password", admin_handlers.Password(db))
+		}
+		// 数据库管理路由分组
+		databaseGroup := apiGroup.Group("/database")
+		{
+			databaseGroup.DELETE("/empty", database_handlers.EmptyDatabase(db))
 		}
 		// 用户收支管理路由分组
 		billGroup := apiGroup.Group("/bill")
