@@ -2,8 +2,10 @@ package account_handlers
 
 import (
 	"FamilyMoneyRecord/database/action/account"
+	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
+	"FamilyMoneyRecord/utils/stock_info_utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -70,9 +72,26 @@ func GetAllAccounts(db *gorm.DB) func(c *gin.Context) {
 		}
 		var records []AllRecord
 		for _, accountRecord := range AccountList {
+			var profit float64
+			profit = 0
+			stocks, err := stock.GetStocksByAccountID(db, accountRecord.ID)
+			if err != nil {
+				response.setAllResponse(-5, "获取时发生错误，请稍后再试", nil)
+				c.JSON(http.StatusOK, response)
+				return
+			}
+			for _, s := range stocks {
+				_, price, err := stock_info_utils.GetStockInfo(s.Code)
+				if err != nil {
+					response.setAllResponse(-5, "获取时发生错误，请稍后再试", nil)
+					c.JSON(http.StatusOK, response)
+					return
+				}
+				profit = profit + s.Profit + float64(s.PositionNum)*price
+			}
 			record := AllRecord{
 				ID:     accountRecord.ID,
-				Profit: accountRecord.Profit,
+				Profit: profit,
 			}
 			records = append(records, record)
 		}

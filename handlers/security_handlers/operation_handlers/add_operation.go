@@ -11,12 +11,12 @@ import (
 )
 
 type AddRequest struct {
-	Token      string  `json:"token" binding:"required"`
-	AccountID  uint64  `json:"accountID" binding:"required"`
-	Code       string  `json:"code" binding:"required"`
-	BuyNum     int     `json:"buyNum" binding:"required"`
-	SaleNum    int     `json:"saleNum" binding:"required"`
-	SharePrice float64 `json:"sharePrice" binding:"required"`
+	Token      string  `json:"token"`
+	AccountID  uint64  `json:"accountID"`
+	Code       string  `json:"code"`
+	BuyNum     int     `json:"buyNum"`
+	SaleNum    int     `json:"saleNum"`
+	SharePrice float64 `json:"sharePrice"`
 }
 
 type AddResponse struct {

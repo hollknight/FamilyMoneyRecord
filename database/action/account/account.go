@@ -2,7 +2,6 @@ package account
 
 import (
 	"FamilyMoneyRecord/database/model"
-	"errors"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +18,6 @@ import (
 func AddAccount(db *gorm.DB, userID uint64) (uint64, error) {
 	account := model.Account{
 		UserID: userID,
-		Profit: 0,
 	}
 
 	err := db.Create(&account).Error
@@ -50,17 +48,25 @@ func GetAccountsByUserID(db *gorm.DB, userID uint64) ([]model.Account, error) {
 	return accountsList, result.Error
 }
 
-// UpdateAccountProfit 更新并获取股票账户盈亏金额
-func UpdateAccountProfit(db *gorm.DB, id uint64, profit float64) error {
+// GetAccountByID 根据id获取股票账户
+func GetAccountByID(db *gorm.DB, id uint64) (model.Account, error) {
 	account := new(model.Account)
-	res := db.Model(&account).Where("id = ?", id).Update("profit", profit)
-	if res.RowsAffected == 0 {
-		err := errors.New("该主键下股票账户已被删除")
-		return err
-	}
+	err := db.Where("id = ?", id).First(account).Error
 
-	return res.Error
+	return *account, err
 }
+
+// UpdateAccountProfit 更新并获取股票账户盈亏金额
+//func UpdateAccountProfit(db *gorm.DB, id uint64, profit float64) error {
+//	account := new(model.Account)
+//	res := db.Model(&account).Where("id = ?", id).Update("profit", profit)
+//	if res.RowsAffected == 0 {
+//		err := errors.New("该主键下股票账户已被删除")
+//		return err
+//	}
+//
+//	return res.Error
+//}
 
 // DeleteAccount 删除指定证券账户
 func DeleteAccount(db *gorm.DB, id uint64) error {

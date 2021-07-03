@@ -53,7 +53,7 @@ func GetStockByID(db *gorm.DB, id uint64) (model.Stock, error) {
 // GetStocksByAccountID 根据股票账户id获取所有股票
 func GetStocksByAccountID(db *gorm.DB, accountID uint64) ([]model.Stock, error) {
 	var stockList []model.Stock
-	err := db.Where("account_id = ?", accountID).Find(stockList).Error
+	err := db.Where("account_id = ?", accountID).Find(&stockList).Error
 
 	return stockList, err
 }
@@ -62,7 +62,7 @@ func GetStocksByAccountID(db *gorm.DB, accountID uint64) ([]model.Stock, error) 
 func UpdateStock(db *gorm.DB, stock model.Stock, positionNum int, profit float64) error {
 	err := db.Model(&stock).Updates(
 		map[string]interface{}{
-			"position_sum": positionNum,
+			"position_num": positionNum,
 			"profit":       profit,
 		}).Error
 
