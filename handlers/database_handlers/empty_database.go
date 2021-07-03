@@ -58,7 +58,7 @@ func EmptyDatabase(db *gorm.DB) func(c *gin.Context) {
 
 		err = db.Transaction(func(tx *gorm.DB) error {
 			database_utils.DropAllTables(tx)
-			txErr := database_utils.CreateTables(db)
+			txErr := database_utils.CreateTables(tx)
 			if txErr != nil {
 				return txErr
 			}
