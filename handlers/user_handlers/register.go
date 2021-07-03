@@ -69,15 +69,21 @@ func Register(db *gorm.DB) func(c *gin.Context) {
 		password := request.Password
 		name := request.Name
 
+		if username == config.AdminUsername {
+			response.setRegisterResponse(-5, "用户名已存在，请重新注册")
+			c.JSON(http.StatusOK, response)
+			return
+		}
+
 		encryptedPassword, err := utils.Encrypt(password)
 		if err != nil {
-			response.setRegisterResponse(-5, "密码不能空，请重新输入")
+			response.setRegisterResponse(-6, "密码不能空，请重新输入")
 			c.JSON(http.StatusOK, response)
 			return
 		}
 		err = user.AddUser(db, username, encryptedPassword, name)
 		if err != nil {
-			response.setRegisterResponse(-6, "注册失败，请重新注册")
+			response.setRegisterResponse(-7, "用户名已存在，请重新注册")
 			c.JSON(http.StatusOK, response)
 			return
 		}
