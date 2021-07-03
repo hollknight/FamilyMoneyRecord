@@ -71,7 +71,6 @@ func RecoverDatabase(db *gorm.DB) func(c *gin.Context) {
 				return txErr
 			}
 
-			database_utils.DropAllTables(tx)
 			database, txErr := database_utils.JSON2Struct(name)
 			if txErr != nil {
 				return txErr
