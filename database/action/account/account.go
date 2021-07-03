@@ -27,6 +27,13 @@ func AddAccount(db *gorm.DB, userID uint64) (uint64, error) {
 	return account.ID, err
 }
 
+// AddAccountByStruct 根据结构体添加证券账户
+func AddAccountByStruct(db *gorm.DB, account model.Account) error {
+	err := db.Create(&account).Error
+
+	return err
+}
+
 // GetAllAccounts 获取股票账户列表
 func GetAllAccounts(db *gorm.DB) ([]model.Account, error) {
 	var accountsList []model.Account

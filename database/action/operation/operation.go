@@ -35,6 +35,13 @@ func AddOperation(db *gorm.DB, accountID, stockID uint64, sharePrice float64, bu
 	return operation.ID, err
 }
 
+// AddOperationByStruct 根据结构体添加股票操作记录
+func AddOperationByStruct(db *gorm.DB, operation model.Operation) error {
+	err := db.Create(&operation).Error
+
+	return err
+}
+
 // GetAllOperations 获取所有交易记录
 func GetAllOperations(db *gorm.DB) ([]model.Operation, error) {
 	var operationList []model.Operation

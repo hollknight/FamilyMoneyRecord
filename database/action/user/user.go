@@ -33,6 +33,13 @@ func AddUser(db *gorm.DB, username, password, name string) error {
 	return err
 }
 
+// AddUserByStruct 根据结构体添加用户
+func AddUserByStruct(db *gorm.DB, user model.User) error {
+	err := db.Create(&user).Error
+
+	return err
+}
+
 // GetUserByUsername 根据用户账号查询用户
 func GetUserByUsername(db *gorm.DB, username string) (model.User, error) {
 	user := new(model.User)

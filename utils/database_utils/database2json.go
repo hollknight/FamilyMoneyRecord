@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 	"gorm.io/gorm"
+	"io/ioutil"
 	"os"
 )
 
@@ -67,4 +68,23 @@ func Struct2json(dataStruct Database, saveName string) error {
 	}
 
 	return nil
+}
+
+//
+func JSON2Struct(jsonName string) (*Database, error) {
+	database := new(Database)
+	path := config.FolderBathURL + jsonName + ".json"
+	jsonFile, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+
+	defer jsonFile.Close()
+
+	byteJson, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		return nil, err
+	}
+	json.Unmarshal(byteJson, &database)
+	return database, nil
 }

@@ -19,6 +19,13 @@ func AddStock(db *gorm.DB, accountID uint64, code string, positionNum int, profi
 	return stock, err
 }
 
+// AddStockByStruct 根据结构体添加股票
+func AddStockByStruct(db *gorm.DB, stock model.Stock) error {
+	err := db.Create(&stock).Error
+
+	return err
+}
+
 // GetAllStocks 获取股票信息
 func GetAllStocks(db *gorm.DB) ([]model.Stock, error) {
 	var stockList []model.Stock

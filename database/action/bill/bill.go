@@ -34,6 +34,13 @@ func AddBill(db *gorm.DB, user model.User, receipt, disbursement float64, moneyT
 	return bill.ID, err
 }
 
+// AddBillByStruct 根据结构体添加账单
+func AddBillByStruct(db *gorm.DB, bill model.Bill) error {
+	err := db.Create(&bill).Error
+
+	return err
+}
+
 // GetAllBills 获取所有账单
 func GetAllBills(db *gorm.DB) ([]model.Bill, error) {
 	var billList []model.Bill
