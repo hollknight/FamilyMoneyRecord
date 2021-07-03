@@ -42,7 +42,7 @@ func Register(db *gorm.DB) func(c *gin.Context) {
 		}
 
 		inviteUsername := request.InviteUsername
-		invitePassword := request.Password
+		invitePassword := request.InvitePassword
 		if !(inviteUsername == config.AdminUsername && invitePassword == config.AdminPassword) {
 			u, err := user.GetUserByUsername(db, inviteUsername)
 			if err != nil {
