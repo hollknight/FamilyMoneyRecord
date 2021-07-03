@@ -43,8 +43,8 @@ func SaveDatabase(db *gorm.DB) (Database, error) {
 	return database, err
 }
 
-// Struct2json 将结构体储存为json文件
-func Struct2json(dataStruct Database, saveName string) error {
+// Struct2JSON 将结构体储存为json文件
+func Struct2JSON(dataStruct Database, saveName string) error {
 	path := config.FolderBathURL + saveName + ".json"
 	isExist, err := resource_utils.IsExist(path)
 	if err != nil {
@@ -70,7 +70,7 @@ func Struct2json(dataStruct Database, saveName string) error {
 	return nil
 }
 
-//
+// JSON2Struct 读取json文件并转换为结构体
 func JSON2Struct(jsonName string) (*Database, error) {
 	database := new(Database)
 	path := config.FolderBathURL + jsonName + ".json"

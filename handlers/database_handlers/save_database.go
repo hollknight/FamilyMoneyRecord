@@ -53,11 +53,11 @@ func SaveDatabase(db *gorm.DB) func(c *gin.Context) {
 		name := request.Name
 		saveDatabase, err := database_utils.SaveDatabase(db)
 		if err != nil {
-			response.setSaveResponse(-4, "权限不足")
+			response.setSaveResponse(-4, "备份失败，请重新再试")
 			c.JSON(http.StatusOK, response)
 			return
 		}
-		err = database_utils.Struct2json(saveDatabase, name)
+		err = database_utils.Struct2JSON(saveDatabase, name)
 		if err != nil {
 			response.setSaveResponse(-5, "备份失败，请重新再试")
 			c.JSON(http.StatusOK, response)

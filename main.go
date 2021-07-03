@@ -70,6 +70,7 @@ func main() {
 		{
 			databaseGroup.POST("/save", database_handlers.SaveDatabase(db))
 			databaseGroup.POST("/recover", database_handlers.RecoverDatabase(db))
+			databaseGroup.POST("/get", database_handlers.GetDatabase(db))
 			databaseGroup.DELETE("/empty", database_handlers.EmptyDatabase(db))
 		}
 		// 用户收支管理路由分组
