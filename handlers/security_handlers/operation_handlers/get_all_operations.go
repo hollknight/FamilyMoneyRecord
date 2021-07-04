@@ -81,7 +81,7 @@ func GetAllOperations(db *gorm.DB) func(c *gin.Context) {
 		for _, operationRecord := range operationList {
 			s, err := stock.GetStockByID(db, operationRecord.StockID)
 			if err != nil {
-				response.setAllResponse(-5, "获取时发生错误，请稍后再试", nil)
+				response.setAllResponse(-5, "无效的股票代码", nil)
 				c.JSON(http.StatusOK, response)
 				return
 			}

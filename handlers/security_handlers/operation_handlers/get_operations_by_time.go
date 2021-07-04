@@ -94,7 +94,7 @@ func GetOperationsByTime(db *gorm.DB) func(c *gin.Context) {
 				}
 				name, _, err := stock_info_utils.GetStockInfo(s.Code)
 				if err != nil {
-					response.setTimeResponse(-6, "获取时发生错误，请稍后再试", nil)
+					response.setTimeResponse(-6, "无效的股票代码", nil)
 					c.JSON(http.StatusOK, response)
 					return
 				}
