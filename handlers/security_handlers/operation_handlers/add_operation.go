@@ -65,7 +65,7 @@ func AddOperation(db *gorm.DB) func(c *gin.Context) {
 		s, err := stock.GetStock(db, accountID, code)
 		if err != nil {
 			if saleNum == 0 {
-				s, err = stock.AddStock(db, accountID, code, buyNum, 0)
+				s, err = stock.AddStock(db, accountID, code, 0, 0)
 				if err != nil {
 					response.setAddResponse(-4, "添加记录时出错，请稍后再试")
 					c.JSON(http.StatusOK, response)
