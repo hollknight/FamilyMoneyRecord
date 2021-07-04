@@ -6,17 +6,6 @@ import (
 	"time"
 )
 
-//// Operation 股票操作表
-//type Operation struct {
-//	ID         uint64 `gorm:"primary_key;auto_increment"`
-//	AccountID  uint64
-//	Code       string    `gorm:"type:varchar(10);unique;not null"`
-//	SharePrice int       `gorm:"type:int"`
-//	BuyNum     int       `gorm:"type:int;default:0"`
-//	SaleNum    int       `gorm:"type:int;default:0"`
-//	Time       time.Time `gorm:"type:datetime;default:'1000-01-01 00:00:00'"`
-//}
-
 // AddOperation 添加股票操作记录
 func AddOperation(db *gorm.DB, accountID, stockID uint64, sharePrice float64, buyNum, SaleNum int) (uint64, error) {
 	now := time.Now().Add(time.Hour * 8)
@@ -75,6 +64,17 @@ func DeleteOperationByID(db *gorm.DB, id uint64) (int, int, float64, error) {
 	}
 	err = db.Delete(&operation).Error
 	return operation.BuyNum, operation.SaleNum, operation.SharePrice, err
+}
+
+// DeleteOperations 删除列表中所有股票交易记录
+func DeleteOperations(db *gorm.DB, operationList []model.Operation) error {
+	for _, operation := range operationList {
+		err := db.Delete(&operation).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // UpdateOperationByID 修改交易记录

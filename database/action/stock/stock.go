@@ -69,4 +69,13 @@ func UpdateStock(db *gorm.DB, stock model.Stock, positionNum int, profit float64
 	return err
 }
 
-//
+// DeleteStocks 删除列表中所有股票信息
+func DeleteStocks(db *gorm.DB, stockList []model.Stock) error {
+	for _, stock := range stockList {
+		err := db.Delete(&stock).Error
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

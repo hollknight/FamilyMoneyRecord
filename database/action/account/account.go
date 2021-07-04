@@ -1,6 +1,8 @@
 package account
 
 import (
+	"FamilyMoneyRecord/database/action/operation"
+	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/model"
 	"gorm.io/gorm"
 )
@@ -79,7 +81,25 @@ func DeleteAccount(db *gorm.DB, id uint64) error {
 // DeleteAccounts 删除列表中所有账单
 func DeleteAccounts(db *gorm.DB, accountList []model.Account) error {
 	for _, account := range accountList {
-		err := db.Delete(&account).Error
+		operationList, err := operation.GetAllOperationsByAccountID(db, account.ID)
+		if err != nil {
+			return err
+		}
+		err = operation.DeleteOperations(db, operationList)
+		if err != nil {
+			return err
+		}
+
+		stockList, err := stock.GetStocksByAccountID(db, account.ID)
+		if err != nil {
+			return err
+		}
+		err = stock.DeleteStocks(db, stockList)
+		if err != nil {
+			return err
+		}
+
+		err = db.Delete(&account).Error
 		if err != nil {
 			return err
 		}

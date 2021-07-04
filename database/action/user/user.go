@@ -1,6 +1,8 @@
 package user
 
 import (
+	"FamilyMoneyRecord/database/action/account"
+	"FamilyMoneyRecord/database/action/bill"
 	"FamilyMoneyRecord/database/model"
 	"gorm.io/gorm"
 )
@@ -79,29 +81,29 @@ func UpdateAdvanceConsumption(db *gorm.DB, username string, advanceConsumption f
 
 // DeleteUser 注销用户
 func DeleteUser(db *gorm.DB, user model.User) error {
-	//// 删除所有与用户有关的账单
-	//billList, err := bill.GetBillsByUserID(db, user.ID)
-	//if err != nil {
-	//	return err
-	//}
-	//err = bill.DeleteBills(db, billList)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//// 删除所有与用户有关的证券账户
-	//accountList, err := account.GetAccountsByUserID(db, user.ID)
-	//if err != nil {
-	//	return err
-	//}
-	//err = account.DeleteAccounts(db, accountList)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//// 删除用户
-	//err = db.Delete(&user).Error
-	err := db.Select("Bills", "Accounts").Delete(&user).Error
+	// 删除所有与用户有关的账单
+	billList, err := bill.GetAllBillsByUserID(db, user.ID)
+	if err != nil {
+		return err
+	}
+	err = bill.DeleteBills(db, billList)
+	if err != nil {
+		return err
+	}
+
+	// 删除所有与用户有关的证券账户
+	accountList, err := account.GetAccountsByUserID(db, user.ID)
+	if err != nil {
+		return err
+	}
+	err = account.DeleteAccounts(db, accountList)
+	if err != nil {
+		return err
+	}
+
+	// 删除用户
+	err = db.Delete(&user).Error
+	//err := db.Select("Bills", "Accounts").Delete(&user).Error
 
 	return err
 }
