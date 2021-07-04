@@ -26,6 +26,7 @@ type TypeData struct {
 }
 
 type TypeRecord struct {
+	ID           uint64  `json:"id"`
 	Receipt      float64 `json:"receipt"`
 	Disbursement float64 `json:"disbursement"`
 	Type         string  `json:"type"`
@@ -76,6 +77,7 @@ func GetBillsByType(db *gorm.DB) func(c *gin.Context) {
 		for _, billRecord := range billList {
 			timeRecord := time.Unix(billRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
 			record := TypeRecord{
+				ID:           billRecord.ID,
 				Receipt:      billRecord.Receipt,
 				Disbursement: billRecord.Disbursement,
 				Type:         billRecord.Type,

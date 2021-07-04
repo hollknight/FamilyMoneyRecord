@@ -17,23 +17,24 @@ type TimeRequest struct {
 }
 
 type TimeResponse struct {
-	Data TypeData `json:"data"`
+	Data TimeData `json:"data"`
 	Code int      `json:"code"`
 	Msg  string   `json:"msg"`
 }
 
 type TimeData struct {
-	Records []TypeRecord `json:"records"`
+	Records []TimeRecord `json:"records"`
 }
 
 type TimeRecord struct {
+	ID           uint64  `json:"id"`
 	Receipt      float64 `json:"receipt"`
 	Disbursement float64 `json:"disbursement"`
 	Type         string  `json:"type"`
 	Time         string  `json:"time"`
 }
 
-func (res *TimeResponse) setTimeResponse(code int, msg string, records []TypeRecord) {
+func (res *TimeResponse) setTimeResponse(code int, msg string, records []TimeRecord) {
 	res.Data.Records = records
 	res.Code = code
 	res.Msg = msg
@@ -76,11 +77,12 @@ func GetBillsByTime(db *gorm.DB) func(c *gin.Context) {
 			response.setTimeResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
 		}
-		var records []TypeRecord
+		var records []TimeRecord
 		for _, billRecord := range billList {
 			if beginTime.Before(billRecord.Time) && endTime.After(billRecord.Time) {
 				timeRecord := time.Unix(billRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
-				record := TypeRecord{
+				record := TimeRecord{
+					ID:           billRecord.ID,
 					Receipt:      billRecord.Receipt,
 					Disbursement: billRecord.Disbursement,
 					Type:         billRecord.Type,
