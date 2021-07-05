@@ -84,7 +84,10 @@ func Login(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
-		if u.AdvanceConsumption > 0 && float64(u.DisbursementSum/u.AdvanceConsumption) >= 0.8 {
+		if u.AdvanceConsumption > 0 && float64(u.DisbursementSum/u.AdvanceConsumption) > 1 {
+			response.setLoginResponse(0, token, "登录成功，消费金额超过预消费额", false)
+			c.JSON(http.StatusOK, response)
+		} else if u.AdvanceConsumption > 0 && float64(u.DisbursementSum/u.AdvanceConsumption) >= 0.8 {
 			response.setLoginResponse(0, token, "登录成功，消费金额接近预消费额", false)
 			c.JSON(http.StatusOK, response)
 		} else {

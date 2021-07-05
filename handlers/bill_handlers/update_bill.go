@@ -10,12 +10,12 @@ import (
 )
 
 type UpdateRequest struct {
-	Token        string  `json:"token" binding:"required"`
-	ID           uint64  `json:"id" binding:"required"`
-	Receipt      float64 `json:"receipt" binding:"required"`
-	Disbursement float64 `json:"disbursement" binding:"required"`
-	Type         string  `json:"type" binding:"required"`
-	Note         string  `json:"note" binding:"required"`
+	Token        string  `json:"token"`
+	ID           uint64  `json:"id"`
+	Receipt      float64 `json:"receipt"`
+	Disbursement float64 `json:"disbursement"`
+	Type         string  `json:"type"`
+	Note         string  `json:"note"`
 }
 
 type UpdateResponse struct {

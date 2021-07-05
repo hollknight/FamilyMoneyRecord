@@ -83,7 +83,7 @@ func GetAllAccounts(db *gorm.DB) func(c *gin.Context) {
 			for _, s := range stocks {
 				_, price, err := stock_info_utils.GetStockInfo(s.Code)
 				if err != nil {
-					response.setAllResponse(-5, "获取时发生错误，请稍后再试", nil)
+					response.setAllResponse(-6, "获取时发生错误，请稍后再试", nil)
 					c.JSON(http.StatusOK, response)
 					return
 				}

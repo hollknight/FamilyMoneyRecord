@@ -5,7 +5,6 @@ import (
 	"FamilyMoneyRecord/utils"
 	"FamilyMoneyRecord/utils/resource_utils"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -26,7 +25,7 @@ func (res *DeleteResponse) setDeleteResponse(code int, msg string) {
 }
 
 // DeleteDatabase 清空数据库接口
-func DeleteDatabase(db *gorm.DB) func(c *gin.Context) {
+func DeleteDatabase() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		request := new(DeleteRequest)
 		response := new(DeleteResponse)

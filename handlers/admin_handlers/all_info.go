@@ -28,7 +28,7 @@ type UserInfo struct {
 	Name               string  `json:"name"`
 	ReceiptSum         float64 `json:"receiptSum"`
 	DisbursementSum    float64 `json:"disbursementSum"`
-	AdvanceConsumption float64 `json:"AdvanceConsumption"`
+	AdvanceConsumption float64 `json:"advanceConsumption"`
 }
 
 func (res *AllInfoResponse) setAllInfoResponse(code int, msg string, users []UserInfo) {
