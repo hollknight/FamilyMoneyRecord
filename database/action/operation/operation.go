@@ -47,6 +47,14 @@ func GetAllOperationsByAccountID(db *gorm.DB, accountID uint64) ([]model.Operati
 	return operationList, result.Error
 }
 
+// GetAllOperationsByStockID 获取股票下所有交易记录
+func GetAllOperationsByStockID(db *gorm.DB, stockID uint64) ([]model.Operation, error) {
+	var operationList []model.Operation
+	result := db.Where("stock_id = ?", stockID).Find(&operationList)
+
+	return operationList, result.Error
+}
+
 // GetOperationByID 根据主键获取股票交易记录
 func GetOperationByID(db *gorm.DB, id uint64) (model.Operation, error) {
 	operation := new(model.Operation)
