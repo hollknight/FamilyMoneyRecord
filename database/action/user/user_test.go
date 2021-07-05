@@ -23,6 +23,15 @@ func TestGetUserByUsername(t *testing.T) {
 	fmt.Println(user)
 }
 
+func TestGetUsersByLikeUsername(t *testing.T) {
+	db, _ := database.InitDB()
+	users, err := GetUsersByLikeUsername(db, "admin")
+	if err != nil {
+		t.Errorf("获取用户信息失败：%s", err)
+	}
+	fmt.Println(users)
+}
+
 func TestGetAllUsers(t *testing.T) {
 	db, _ := database.InitDB()
 	userList, err := GetAllUsers(db)

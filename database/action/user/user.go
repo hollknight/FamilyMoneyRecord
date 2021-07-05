@@ -50,6 +50,14 @@ func GetUserByUsername(db *gorm.DB, username string) (model.User, error) {
 	return *user, err
 }
 
+// GetUsersByLikeUsername 模糊查询获取用户列表
+func GetUsersByLikeUsername(db *gorm.DB, username string) ([]model.User, error) {
+	var userList []model.User
+	err := db.Where("username LIKE ?", "%"+username+"%").Find(&userList).Error
+
+	return userList, err
+}
+
 // GetAllUsers 获取所有用户信息
 func GetAllUsers(db *gorm.DB) ([]model.User, error) {
 	var userList []model.User
