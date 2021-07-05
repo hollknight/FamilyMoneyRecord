@@ -9,6 +9,7 @@ import (
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
 	"FamilyMoneyRecord/utils/database_utils"
+	"FamilyMoneyRecord/utils/resource_utils"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -63,6 +64,13 @@ func RecoverDatabase(db *gorm.DB) func(c *gin.Context) {
 		}
 
 		name := request.Name
+		path := config.FolderBathURL + name + ".json"
+		isExist, err := resource_utils.IsExist(path)
+		if isExist || err != nil {
+			response.setRecoverResponse(-5, "备份文件不存在，请更换备份文件名称")
+			c.JSON(http.StatusOK, response)
+			return
+		}
 		err = db.Transaction(func(tx *gorm.DB) error {
 			// 清空数据库表数据
 			database_utils.DropAllTables(tx)
@@ -112,7 +120,7 @@ func RecoverDatabase(db *gorm.DB) func(c *gin.Context) {
 			return nil
 		})
 		if err != nil {
-			response.setRecoverResponse(-5, "恢复数据库时发生错误，请稍后再试")
+			response.setRecoverResponse(-6, "恢复数据库时发生错误，请稍后再试")
 			c.JSON(http.StatusOK, response)
 		}
 	}

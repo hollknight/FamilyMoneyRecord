@@ -72,6 +72,7 @@ func main() {
 			databaseGroup.POST("/recover", database_handlers.RecoverDatabase(db))
 			databaseGroup.POST("/get", database_handlers.GetDatabase(db))
 			databaseGroup.DELETE("/empty", database_handlers.EmptyDatabase(db))
+			databaseGroup.DELETE("/delete", database_handlers.DeleteDatabase(db))
 		}
 		// 用户收支管理路由分组
 		billGroup := apiGroup.Group("/bill")
