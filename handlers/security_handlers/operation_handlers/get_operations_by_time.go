@@ -30,6 +30,7 @@ type TimeData struct {
 }
 
 type TimeOperation struct {
+	ID         uint64  `json:"id"`
 	Name       string  `json:"name"`
 	Code       string  `json:"code"`
 	BuyNum     int     `json:"buyNum"`
@@ -100,6 +101,7 @@ func GetOperationsByTime(db *gorm.DB) func(c *gin.Context) {
 				}
 				timeRecord := time.Unix(operationRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
 				record := TimeOperation{
+					ID:         operationRecord.ID,
 					Name:       name,
 					Code:       s.Code,
 					BuyNum:     operationRecord.BuyNum,
