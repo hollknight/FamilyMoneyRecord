@@ -3,9 +3,11 @@ package user_handlers
 import (
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type InfoRequest struct {
@@ -66,7 +68,10 @@ func GetInfo(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
-		response.setInfoResponse(0, u.Name, u.Username, "查询成功", u.ReceiptSum, u.DisbursementSum, u.AdvanceConsumption)
+		receiptSum, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.ReceiptSum), 64)
+		disbursementSum, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.DisbursementSum), 64)
+		advanceConsumption, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.AdvanceConsumption), 64)
+		response.setInfoResponse(0, u.Name, u.Username, "查询成功", receiptSum, disbursementSum, advanceConsumption)
 		c.JSON(http.StatusOK, response)
 	}
 }

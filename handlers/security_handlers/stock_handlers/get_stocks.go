@@ -5,9 +5,11 @@ import (
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
 	"FamilyMoneyRecord/utils/stock_info_utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type StockRequest struct {
@@ -84,13 +86,14 @@ func GetAllStocks(db *gorm.DB) func(c *gin.Context) {
 				return
 			}
 			profit := stockRecord.Profit + float64(stockRecord.PositionNum)*price
+			profitFmt, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", profit), 64)
 			record := StockRecord{
 				ID:          stockRecord.ID,
 				Name:        name,
 				Code:        stockRecord.Code,
 				PositionNum: stockRecord.PositionNum,
 				Price:       price,
-				Profit:      profit,
+				Profit:      profitFmt,
 			}
 			records = append(records, record)
 		}

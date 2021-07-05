@@ -4,9 +4,11 @@ import (
 	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 )
 
 type AllInfoRequest struct {
@@ -70,12 +72,16 @@ func GetAllInfo(db *gorm.DB) func(c *gin.Context) {
 
 		var usersInfo []UserInfo
 		for _, u := range userList {
+			receiptSum, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.ReceiptSum), 64)
+			disbursementSum, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.DisbursementSum), 64)
+			advanceConsumption, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", u.AdvanceConsumption), 64)
+
 			userInfo := UserInfo{
 				Username:           u.Username,
 				Name:               u.Name,
-				ReceiptSum:         u.ReceiptSum,
-				DisbursementSum:    u.DisbursementSum,
-				AdvanceConsumption: u.AdvanceConsumption,
+				ReceiptSum:         receiptSum,
+				DisbursementSum:    disbursementSum,
+				AdvanceConsumption: advanceConsumption,
 			}
 			usersInfo = append(usersInfo, userInfo)
 		}

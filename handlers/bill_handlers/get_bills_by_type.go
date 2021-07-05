@@ -4,9 +4,11 @@ import (
 	"FamilyMoneyRecord/database/action/bill"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -75,11 +77,13 @@ func GetBillsByType(db *gorm.DB) func(c *gin.Context) {
 		}
 		var records []TypeRecord
 		for _, billRecord := range billList {
+			receipt, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", billRecord.Receipt), 64)
+			disbursement, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", billRecord.Disbursement), 64)
 			timeRecord := time.Unix(billRecord.Time.Unix(), 0).Format("2006-01-02 15:04:05")
 			record := TypeRecord{
 				ID:           billRecord.ID,
-				Receipt:      billRecord.Receipt,
-				Disbursement: billRecord.Disbursement,
+				Receipt:      receipt,
+				Disbursement: disbursement,
 				Type:         billRecord.Type,
 				Time:         timeRecord,
 			}
