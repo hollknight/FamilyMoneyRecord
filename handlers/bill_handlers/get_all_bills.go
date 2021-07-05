@@ -32,6 +32,7 @@ type AllRecord struct {
 	Disbursement float64 `json:"disbursement"`
 	Type         string  `json:"type"`
 	Time         string  `json:"time"`
+	Note         string  `json:"note"`
 }
 
 func (res *AllResponse) setAllResponse(code int, msg string, records []AllRecord) {
@@ -84,6 +85,7 @@ func GetAllBills(db *gorm.DB) func(c *gin.Context) {
 				Disbursement: disbursement,
 				Type:         billRecord.Type,
 				Time:         timeRecord,
+				Note:         billRecord.Note,
 			}
 			records = append(records, record)
 		}

@@ -66,7 +66,7 @@ func RecoverDatabase(db *gorm.DB) func(c *gin.Context) {
 		name := request.Name
 		path := config.FolderBathURL + name + ".json"
 		isExist, err := resource_utils.IsExist(path)
-		if isExist || err != nil {
+		if !isExist || err != nil {
 			response.setRecoverResponse(-5, "备份文件不存在，请更换备份文件名称")
 			c.JSON(http.StatusOK, response)
 			return

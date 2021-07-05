@@ -59,7 +59,7 @@ func main() {
 		// 管理员用户管理路由分组
 		adminGroup := apiGroup.Group("/admin")
 		{
-			adminGroup.POST("/single_info", admin_handlers.GetSingleInfo(db))
+			adminGroup.POST("/search_info", admin_handlers.GetSingleInfo(db))
 			adminGroup.POST("/all_info", admin_handlers.GetAllInfo(db))
 			adminGroup.POST("/add", admin_handlers.AddUser(db))
 			adminGroup.DELETE("/delete", admin_handlers.DeleteUser(db))

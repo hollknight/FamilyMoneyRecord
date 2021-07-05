@@ -64,7 +64,7 @@ func AddUser(db *gorm.DB) func(c *gin.Context) {
 		}
 		err = user.AddUser(db, username, encryptedPassword, name)
 		if err != nil {
-			response.setAddUserResponse(-5, "注册失败，请重新注册")
+			response.setAddUserResponse(-5, "账号已存在，请重新注册")
 			c.JSON(http.StatusOK, response)
 			return
 		}
