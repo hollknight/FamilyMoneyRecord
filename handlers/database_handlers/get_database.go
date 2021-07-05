@@ -20,10 +20,14 @@ type GetResponse struct {
 }
 
 type GetData struct {
-	Save []string `json:"save"`
+	Save []Name `json:"save"`
 }
 
-func (res *GetResponse) setGetResponse(code int, msg string, names []string) {
+type Name struct {
+	Name string `json:"name"`
+}
+
+func (res *GetResponse) setGetResponse(code int, msg string, names []Name) {
 	res.GetData.Save = names
 	res.Code = code
 	res.Msg = msg
@@ -55,14 +59,21 @@ func GetDatabase(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
+		var nameInfo []Name
 		names, err := resource_utils.GetJSONName()
+		for _, name := range names {
+			n := Name{
+				Name: name,
+			}
+			nameInfo = append(nameInfo, n)
+		}
 		if err != nil {
 			response.setGetResponse(-4, "获取失败，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
 			return
 		}
 
-		response.setGetResponse(0, "获取成功", names)
+		response.setGetResponse(0, "获取成功", nameInfo)
 		c.JSON(http.StatusOK, response)
 	}
 }

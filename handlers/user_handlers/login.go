@@ -66,7 +66,11 @@ func Login(db *gorm.DB) func(c *gin.Context) {
 
 		u, err := user.GetUserByUsername(db, username)
 		if err != nil {
-			response.setLoginResponse(-3, "", "未查询到该账号", false)
+			if username == config.AdminUsername {
+				response.setLoginResponse(-3, "", "管理员密码错误", false)
+			} else {
+				response.setLoginResponse(-4, "", "未查询到该账号", false)
+			}
 			c.JSON(http.StatusOK, response)
 			return
 		}
@@ -74,12 +78,12 @@ func Login(db *gorm.DB) func(c *gin.Context) {
 		// 密码验证
 		encryptedPassword, err := utils.Encrypt(password)
 		if err != nil {
-			response.setLoginResponse(-4, "", "密码为空，请重新输入", false)
+			response.setLoginResponse(-5, "", "密码为空，请重新输入", false)
 			c.JSON(http.StatusOK, response)
 			return
 		}
 		if strings.Compare(encryptedPassword, u.Password) != 0 {
-			response.setLoginResponse(-5, "", "密码错误，请重新输入", false)
+			response.setLoginResponse(-6, "", "密码错误，请重新输入", false)
 			c.JSON(http.StatusOK, response)
 			return
 		}
