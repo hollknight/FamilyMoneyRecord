@@ -13,8 +13,9 @@ import (
 )
 
 type StockRequest struct {
-	Token   string `json:"token" binding:"required"`
-	StockID uint64 `json:"stockID" binding:"required"`
+	Token     string `json:"token" binding:"required"`
+	AccountID uint64 `json:"accountID" binding:"required"`
+	Code      string `json:"code" binding:"required"`
 }
 
 type StockResponse struct {
@@ -71,24 +72,31 @@ func GetOperationsByStock(db *gorm.DB) func(c *gin.Context) {
 			return
 		}
 
-		stockID := request.StockID
-		operationList, err := operation.GetAllOperationsByStockID(db, stockID)
+		accountID := request.AccountID
+		code := request.Code
+		s, err := stock.GetStock(db, accountID, code)
 		if err != nil {
 			response.setStockResponse(-4, "获取时发生错误，请稍后再试", nil)
 			c.JSON(http.StatusOK, response)
 			return
 		}
+		operationList, err := operation.GetAllOperationsByStockID(db, s.ID)
+		if err != nil {
+			response.setStockResponse(-5, "获取时发生错误，请稍后再试", nil)
+			c.JSON(http.StatusOK, response)
+			return
+		}
 		var records []StockOperation
 		for _, operationRecord := range operationList {
-			s, err := stock.GetStockByID(db, stockID)
+			s, err := stock.GetStockByID(db, s.ID)
 			if err != nil {
-				response.setStockResponse(-5, "获取时发生错误，请稍后再试", nil)
+				response.setStockResponse(-6, "获取时发生错误，请稍后再试", nil)
 				c.JSON(http.StatusOK, response)
 				return
 			}
 			name, _, err := stock_info_utils.GetStockInfo(s.Code)
 			if err != nil {
-				response.setStockResponse(-6, "无效的股票代码", nil)
+				response.setStockResponse(-7, "无效的股票代码", nil)
 				c.JSON(http.StatusOK, response)
 				return
 			}
