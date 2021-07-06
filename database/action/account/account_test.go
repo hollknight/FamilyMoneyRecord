@@ -8,18 +8,11 @@ import (
 
 func TestAddAccount(t *testing.T) {
 	db, _ := database.InitDB()
-	err := AddAccount(db, 1)
+	id, err := AddAccount(db, 1)
 	if err != nil {
 		t.Errorf("添加证券账户错误：%s", err)
 	}
-}
-
-func TestUpdateAccountProfit(t *testing.T) {
-	db, _ := database.InitDB()
-	err := UpdateAccountProfit(db, 3, 30)
-	if err != nil {
-		t.Errorf("修改盈利出错：%s", err)
-	}
+	fmt.Println(id)
 }
 
 func TestGetAccountsByUserID(t *testing.T) {
@@ -29,6 +22,15 @@ func TestGetAccountsByUserID(t *testing.T) {
 		t.Errorf("获取证券账户列表出错：%s", err)
 	}
 	fmt.Println(accounts)
+}
+
+func TestGetAllAccounts(t *testing.T) {
+	db, _ := database.InitDB()
+	accountList, err := GetAllAccounts(db)
+	if err != nil {
+		t.Errorf("获取证券账户列表出错：%s", err)
+	}
+	fmt.Println(accountList)
 }
 
 func TestDeleteAccount(t *testing.T) {

@@ -50,11 +50,15 @@ func TestUpdateUserName(t *testing.T) {
 }
 
 func TestUpdateUserPassword(t *testing.T) {
-	//db, _ := database.InitDB()
-	//err := UpdateUserPassword(db, "1234567890", "12345678901234567890123456789099")
-	//if err != nil {
-	//	t.Errorf("修改用户密码失败：%s", err)
-	//}
+	db, _ := database.InitDB()
+	user, err := GetUserByUsername(db, "1234567890")
+	if err != nil {
+		t.Errorf("查询用户失败：%s", err)
+	}
+	err = UpdateUserPassword(db, user, "12345678901234567890123456789099")
+	if err != nil {
+		t.Errorf("修改用户密码失败：%s", err)
+	}
 }
 
 func TestUpdateAdvanceConsumption(t *testing.T) {

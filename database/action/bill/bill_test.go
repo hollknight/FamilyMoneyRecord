@@ -13,7 +13,7 @@ func TestAddBill(t *testing.T) {
 	if err != nil {
 		t.Errorf("获取用户信息失败：%s", err)
 	}
-	id, err := AddBill(db, u, 0, 100, "吃饭", "午餐")
+	id, err := AddBill(db, u, 0, 100, "衣食住行", "午餐")
 	if err != nil {
 		t.Errorf("添加账单失败：%s", err)
 	}
@@ -36,6 +36,33 @@ func TestDeleteBillByID(t *testing.T) {
 		t.Errorf("删除账单失败：%s", err)
 	}
 	fmt.Println(receipt, disbursement)
+}
+
+func TestGetAllBills(t *testing.T) {
+	db, _ := database.InitDB()
+	billList, err := GetAllBills(db)
+	if err != nil {
+		t.Errorf("获取账单失败：%s", err)
+	}
+	fmt.Println(billList)
+}
+
+func TestGetAllBillsByUserID(t *testing.T) {
+	db, _ := database.InitDB()
+	billList, err := GetAllBillsByUserID(db, 1)
+	if err != nil {
+		t.Errorf("获取账单失败：%s", err)
+	}
+	fmt.Println(billList)
+}
+
+func TestGetBillsByType(t *testing.T) {
+	db, _ := database.InitDB()
+	billList, err := GetBillsByType(db, 1, "衣食住行")
+	if err != nil {
+		t.Errorf("获取账单失败：%s", err)
+	}
+	fmt.Println(billList)
 }
 
 func TestUpdateBillByID(t *testing.T) {
