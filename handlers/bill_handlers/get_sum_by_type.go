@@ -75,8 +75,8 @@ func GetSumByType(db *gorm.DB) func(c *gin.Context) {
 				response.setSumResponse(-4, "获取时发生错误，请稍后再试", nil, nil)
 				c.JSON(http.StatusOK, response)
 			}
-			for _, bill := range billList {
-				typeReceipt += bill.Receipt
+			for _, b := range billList {
+				typeReceipt += b.Receipt
 			}
 			receipts = append(receipts, typeReceipt)
 		}
@@ -89,8 +89,8 @@ func GetSumByType(db *gorm.DB) func(c *gin.Context) {
 				response.setSumResponse(-5, "获取时发生错误，请稍后再试", nil, nil)
 				c.JSON(http.StatusOK, response)
 			}
-			for _, bill := range billList {
-				typeDisbursement += bill.Disbursement
+			for _, b := range billList {
+				typeDisbursement += b.Disbursement
 			}
 			disbursements = append(disbursements, typeDisbursement)
 		}
