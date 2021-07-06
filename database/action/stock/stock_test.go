@@ -26,7 +26,7 @@ func TestGetAllStocks(t *testing.T) {
 
 func TestGetStock(t *testing.T) {
 	db, _ := database.InitDB()
-	stock, err := GetStock(db, 1, "sz000040")
+	stock, err := GetStock(db, 4, "sz000002")
 	if err != nil {
 		t.Errorf("获取股票持仓信息失败：%s", err)
 	}
@@ -53,7 +53,7 @@ func TestGetStocksByAccountID(t *testing.T) {
 
 func TestUpdateStock(t *testing.T) {
 	db, _ := database.InitDB()
-	stock, err := GetStockByID(db, 1)
+	stock, err := GetStockByID(db, 8)
 	if err != nil {
 		t.Errorf("获取股票持仓信息失败：%s", err)
 	}

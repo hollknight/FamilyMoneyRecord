@@ -87,8 +87,7 @@ func DeleteOperations(db *gorm.DB, operationList []model.Operation) error {
 
 // UpdateOperationByID 修改交易记录
 func UpdateOperationByID(db *gorm.DB, id uint64, buyNum, saleNum int, sharePrice float64) error {
-	operation := new(model.Operation)
-	_, err := GetOperationByID(db, id)
+	operation, err := GetOperationByID(db, id)
 	if err != nil {
 		return err
 	}

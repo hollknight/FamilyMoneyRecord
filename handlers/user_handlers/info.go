@@ -25,7 +25,7 @@ type InfoData struct {
 	Username           string  `json:"username"`
 	ReceiptSum         float64 `json:"receiptSum"`
 	DisbursementSum    float64 `json:"disbursementSum"`
-	AdvanceConsumption float64 `json:"AdvanceConsumption"`
+	AdvanceConsumption float64 `json:"advanceConsumption"`
 }
 
 func (res *InfoResponse) setInfoResponse(code int, name, username, msg string, receiptSum, disbursementSum, AdvanceConsumption float64) {

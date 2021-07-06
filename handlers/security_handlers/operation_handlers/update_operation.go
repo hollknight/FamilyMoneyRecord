@@ -11,13 +11,13 @@ import (
 )
 
 type UpdateRequest struct {
-	Token      string  `json:"token" binding:"required"`
-	ID         uint64  `json:"id" binding:"required"`
-	AccountID  uint64  `json:"accountID" binding:"required"`
-	Code       string  `json:"code" binding:"required"`
-	BuyNum     int     `json:"buyNum" binding:"required"`
-	SaleNum    int     `json:"saleNum" binding:"required"`
-	SharePrice float64 `json:"sharePrice" binding:"required"`
+	Token      string  `json:"token"`
+	ID         uint64  `json:"id"`
+	AccountID  uint64  `json:"accountID"`
+	Code       string  `json:"code"`
+	BuyNum     int     `json:"buyNum"`
+	SaleNum    int     `json:"saleNum"`
+	SharePrice float64 `json:"sharePrice"`
 }
 
 type UpdateResponse struct {
@@ -79,7 +79,7 @@ func UpdateOperation(db *gorm.DB) func(c *gin.Context) {
 		}
 
 		positionNum := s.PositionNum + buyNum - o.BuyNum - saleNum + o.SaleNum
-		profit := s.Profit - float64(o.BuyNum)*o.SharePrice + float64(buyNum)*sharePrice + float64(o.SaleNum)*o.SharePrice - float64(saleNum)*sharePrice
+		profit := s.Profit + float64(o.BuyNum)*o.SharePrice - float64(buyNum)*sharePrice + float64(o.SaleNum)*o.SharePrice - float64(saleNum)*sharePrice
 		if positionNum < 0 {
 			response.setUpdateResponse(-6, "修改交易记录失败，持有股数不能为负数")
 			c.JSON(http.StatusOK, response)
@@ -91,7 +91,7 @@ func UpdateOperation(db *gorm.DB) func(c *gin.Context) {
 			if txErr != nil {
 				return txErr
 			}
-			txErr = stock.UpdateStock(db, s, positionNum, profit)
+			txErr = stock.UpdateStock(tx, s, positionNum, profit)
 			if txErr != nil {
 				return txErr
 			}
