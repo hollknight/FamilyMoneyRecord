@@ -2,9 +2,9 @@ package config
 
 const (
 	Username = "root"
-	Password = "Guit5fx!7kzy9J#"
-	Host     = "rm-bp117412p222cx22two.mysql.rds.aliyuncs.com"
+	Password = "root"
+	Host     = "127.0.0.1"
 	Port     = "3306"
-	Database = "ttt"
+	Database = "test"
 	Charset  = "utf8"
 )
