@@ -1,4 +1,4 @@
-package stock_info_utils
+package stock_info
 
 import (
 	"fmt"

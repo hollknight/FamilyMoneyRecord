@@ -1,4 +1,4 @@
-package database_utils
+package database
 
 import (
 	database2 "FamilyMoneyRecord/database"

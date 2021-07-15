@@ -1,7 +1,7 @@
 package main
 
 import (
-	"FamilyMoneyRecord/database"
+	db "FamilyMoneyRecord/database"
 	"FamilyMoneyRecord/handlers/admin_handlers"
 	"FamilyMoneyRecord/handlers/bill_handlers"
 	"FamilyMoneyRecord/handlers/database_handlers"
@@ -10,7 +10,7 @@ import (
 	"FamilyMoneyRecord/handlers/security_handlers/stock_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers"
 	"FamilyMoneyRecord/handlers/user_handlers/modify"
-	"FamilyMoneyRecord/utils/database_utils"
+	"FamilyMoneyRecord/utils/database"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -21,12 +21,12 @@ func main() {
 	router := gin.Default()
 	router.Use(Cors())
 
-	db, err := database.InitDB()
+	db, err := db.InitDB()
 	if err != nil {
 		fmt.Println("初始化数据库失败，请检查原因重新启动程序")
 		return
 	}
-	err = database_utils.CreateTables(db)
+	err = database.CreateTables(db)
 	if err != nil {
 		fmt.Println("数据库动态迁移失败，请检查原因重新启动程序")
 		return

@@ -3,7 +3,7 @@ package database_handlers
 import (
 	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/resource_utils"
+	"FamilyMoneyRecord/utils/resource"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -58,14 +58,14 @@ func DeleteDatabase() func(c *gin.Context) {
 
 		name := request.Name
 		path := config.FolderBathURL + name + ".json"
-		isExist, err := resource_utils.IsExist(path)
+		isExist, err := resource.IsExist(path)
 		if !isExist || err != nil {
 			response.setDeleteResponse(-5, "备份文件已存在，请更换备份文件名称")
 			c.JSON(http.StatusOK, response)
 			return
 		}
 
-		err = resource_utils.DeleteFile(path)
+		err = resource.DeleteFile(path)
 		if err != nil {
 			response.setDeleteResponse(-6, "删除数据库备份时发生错误，请刷新后再试")
 			c.JSON(http.StatusOK, response)

@@ -3,7 +3,7 @@ package database_handlers
 import (
 	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/resource_utils"
+	"FamilyMoneyRecord/utils/resource"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -60,7 +60,7 @@ func GetDatabase(db *gorm.DB) func(c *gin.Context) {
 		}
 
 		var nameInfo []Name
-		names, err := resource_utils.GetJSONName()
+		names, err := resource.GetJSONName()
 		for _, name := range names {
 			n := Name{
 				Name: name,

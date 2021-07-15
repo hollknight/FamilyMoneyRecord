@@ -1,4 +1,4 @@
-package database_utils
+package database
 
 import (
 	"FamilyMoneyRecord/config"
@@ -8,7 +8,7 @@ import (
 	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/database/model"
-	"FamilyMoneyRecord/utils/resource_utils"
+	"FamilyMoneyRecord/utils/resource"
 	"encoding/json"
 	"errors"
 	"gorm.io/gorm"
@@ -46,7 +46,7 @@ func SaveDatabase(db *gorm.DB) (Database, error) {
 // Struct2JSON 将结构体储存为json文件
 func Struct2JSON(dataStruct Database, saveName string) error {
 	path := config.FolderBathURL + saveName + ".json"
-	isExist, err := resource_utils.IsExist(path)
+	isExist, err := resource.IsExist(path)
 	if err != nil {
 		return err
 	}

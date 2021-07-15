@@ -3,7 +3,7 @@ package database_handlers
 import (
 	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/database_utils"
+	"FamilyMoneyRecord/utils/database"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -57,8 +57,8 @@ func EmptyDatabase(db *gorm.DB) func(c *gin.Context) {
 		}
 
 		err = db.Transaction(func(tx *gorm.DB) error {
-			database_utils.DropAllTables(tx)
-			txErr := database_utils.CreateTables(tx)
+			database.DropAllTables(tx)
+			txErr := database.CreateTables(tx)
 			if txErr != nil {
 				return txErr
 			}

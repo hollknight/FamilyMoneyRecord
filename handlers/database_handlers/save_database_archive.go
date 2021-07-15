@@ -3,8 +3,8 @@ package database_handlers
 import (
 	"FamilyMoneyRecord/config"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/database_utils"
-	"FamilyMoneyRecord/utils/resource_utils"
+	"FamilyMoneyRecord/utils/database"
+	"FamilyMoneyRecord/utils/resource"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -53,20 +53,20 @@ func SaveDatabase(db *gorm.DB) func(c *gin.Context) {
 
 		name := request.Name
 		path := config.FolderBathURL + name + ".json"
-		isExist, err := resource_utils.IsExist(path)
+		isExist, err := resource.IsExist(path)
 		if isExist || err != nil {
 			response.setSaveResponse(-4, "备份文件已存在，请更换备份文件名称")
 			c.JSON(http.StatusOK, response)
 			return
 		}
 
-		saveDatabase, err := database_utils.SaveDatabase(db)
+		saveDatabase, err := database.SaveDatabase(db)
 		if err != nil {
 			response.setSaveResponse(-5, "备份失败，请重新再试")
 			c.JSON(http.StatusOK, response)
 			return
 		}
-		err = database_utils.Struct2JSON(saveDatabase, name)
+		err = database.Struct2JSON(saveDatabase, name)
 		if err != nil {
 			response.setSaveResponse(-6, "备份失败，请重新再试")
 			c.JSON(http.StatusOK, response)

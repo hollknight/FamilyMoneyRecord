@@ -5,7 +5,7 @@ import (
 	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/stock_info_utils"
+	"FamilyMoneyRecord/utils/stock_info"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -93,7 +93,7 @@ func GetOperationsByTime(db *gorm.DB) func(c *gin.Context) {
 					c.JSON(http.StatusOK, response)
 					return
 				}
-				name, _, err := stock_info_utils.GetStockInfo(s.Code)
+				name, _, err := stock_info.GetStockInfo(s.Code)
 				if err != nil {
 					response.setTimeResponse(-6, "无效的股票代码", nil)
 					c.JSON(http.StatusOK, response)

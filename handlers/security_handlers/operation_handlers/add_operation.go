@@ -5,7 +5,7 @@ import (
 	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/stock_info_utils"
+	"FamilyMoneyRecord/utils/stock_info"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -64,7 +64,7 @@ func AddOperation(db *gorm.DB) func(c *gin.Context) {
 		saleNum := request.SaleNum
 		sharePrice := request.SharePrice
 
-		_, _, err = stock_info_utils.GetStockInfo(code)
+		_, _, err = stock_info.GetStockInfo(code)
 		if err != nil {
 			response.setAddResponse(-4, "获取股票信息时发生错误，请稍后再试")
 			c.JSON(http.StatusOK, response)

@@ -5,7 +5,7 @@ import (
 	"FamilyMoneyRecord/database/action/stock"
 	"FamilyMoneyRecord/database/action/user"
 	"FamilyMoneyRecord/utils"
-	"FamilyMoneyRecord/utils/stock_info_utils"
+	"FamilyMoneyRecord/utils/stock_info"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -83,7 +83,7 @@ func GetAllAccounts(db *gorm.DB) func(c *gin.Context) {
 				return
 			}
 			for _, s := range stocks {
-				_, price, err := stock_info_utils.GetStockInfo(s.Code)
+				_, price, err := stock_info.GetStockInfo(s.Code)
 				if err != nil {
 					response.setAllResponse(-6, "获取时发生错误，请稍后再试", nil)
 					c.JSON(http.StatusOK, response)
